@@ -29,16 +29,14 @@ Project File Date:  06/28/2017
 Rebuild target 'Target 1'
 assembling startup_stm32f407xx.s...
 compiling retarget_io.c...
-compiling main.c...
-main.c(138): warning:  #111-D: statement is unreachable
-  	return 0;
-main.c(34): warning:  #177-D: variable "tmpctr"  was declared but never referenced
-  	uint32_t tmpctr = DELAY_COUNTER;
-main.c: 2 warnings, 0 errors
 compiling system_stm32f4xx.c...
+compiling main.c...
+main.c(147): warning:  #111-D: statement is unreachable
+  	return 0;
+main.c: 1 warning, 0 errors
 linking...
-Program Size: Code=4418 RO-data=474 RW-data=24 ZI-data=1888  
-".\Objects\myRover.axf" - 0 Error(s), 2 Warning(s).
+Program Size: Code=4398 RO-data=474 RW-data=24 ZI-data=1888  
+".\Objects\myRover.axf" - 0 Error(s), 1 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -75,10 +73,10 @@ Package Vendor: Keil
    * Component: Keil::Device:Startup:2.6.0
       Include file:  Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h
       Source file:   MDK\Device\Source\ARM\STM32F40xxx_41xxx_OPT.s
-      Source file:   MDK\Device\Source\ARM\STM32F4xx_OTP.s
       Source file:   Drivers\CMSIS\Device\ST\STM32F4xx\Source\Templates\arm\startup_stm32f407xx.s
+      Source file:   MDK\Device\Source\ARM\STM32F4xx_OTP.s
       Source file:   Drivers\CMSIS\Device\ST\STM32F4xx\Source\Templates\system_stm32f4xx.c
-Build Time Elapsed:  00:00:07
+Build Time Elapsed:  00:00:03
 </pre>
 </body>
 </html>
