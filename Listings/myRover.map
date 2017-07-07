@@ -572,13 +572,13 @@ Image Symbol Table
     i._sys_write                             0x08000ffc   Section        0  retarget_io.o(i._sys_write)
     i.fputc                                  0x08001042   Section        0  fputc.o(i.fputc)
     i.main                                   0x0800105c   Section        0  main.o(i.main)
-    i.msec_Delay                             0x08001250   Section        0  main.o(i.msec_Delay)
-    i.stdout_putchar                         0x08001280   Section        0  retarget_io.o(i.stdout_putchar)
-    stdout_putchar                           0x08001281   Thumb Code    12  retarget_io.o(i.stdout_putchar)
-    x$fpl$fpinit                             0x0800128c   Section       10  fpinit.o(x$fpl$fpinit)
-    $v0                                      0x0800128c   Number         0  fpinit.o(x$fpl$fpinit)
-    .constdata                               0x08001296   Section       23  retarget_io.o(.constdata)
-    .constdata                               0x080012ad   Section       24  system_stm32f4xx.o(.constdata)
+    i.msec_Delay                             0x08001324   Section        0  main.o(i.msec_Delay)
+    i.stdout_putchar                         0x08001354   Section        0  retarget_io.o(i.stdout_putchar)
+    stdout_putchar                           0x08001355   Thumb Code    12  retarget_io.o(i.stdout_putchar)
+    x$fpl$fpinit                             0x08001360   Section       10  fpinit.o(x$fpl$fpinit)
+    $v0                                      0x08001360   Number         0  fpinit.o(x$fpl$fpinit)
+    .constdata                               0x0800136a   Section       23  retarget_io.o(.constdata)
+    .constdata                               0x08001381   Section       24  system_stm32f4xx.o(.constdata)
     .data                                    0x20000000   Section        8  main.o(.data)
     .data                                    0x20000008   Section        4  system_stm32f4xx.o(.data)
     .data                                    0x2000000c   Section        4  stdio_streams.o(.data)
@@ -846,18 +846,18 @@ Image Symbol Table
     _sys_seek                                0x08000fd1   Thumb Code    44  retarget_io.o(i._sys_seek)
     _sys_write                               0x08000ffd   Thumb Code    70  retarget_io.o(i._sys_write)
     fputc                                    0x08001043   Thumb Code    26  fputc.o(i.fputc)
-    main                                     0x0800105d   Thumb Code   458  main.o(i.main)
-    msec_Delay                               0x08001251   Thumb Code    40  main.o(i.msec_Delay)
-    _fp_init                                 0x0800128d   Thumb Code    10  fpinit.o(x$fpl$fpinit)
-    __fplib_config_fpu_vfp                   0x08001295   Thumb Code     0  fpinit.o(x$fpl$fpinit)
-    __fplib_config_pureend_doubles           0x08001295   Thumb Code     0  fpinit.o(x$fpl$fpinit)
-    __stdin_name                             0x08001296   Data           7  retarget_io.o(.constdata)
-    __stdout_name                            0x0800129d   Data           8  retarget_io.o(.constdata)
-    __stderr_name                            0x080012a5   Data           8  retarget_io.o(.constdata)
-    AHBPrescTable                            0x080012ad   Data          16  system_stm32f4xx.o(.constdata)
-    APBPrescTable                            0x080012bd   Data           8  system_stm32f4xx.o(.constdata)
-    Region$$Table$$Base                      0x080012c8   Number         0  anon$$obj.o(Region$$Table)
-    Region$$Table$$Limit                     0x080012e8   Number         0  anon$$obj.o(Region$$Table)
+    main                                     0x0800105d   Thumb Code   668  main.o(i.main)
+    msec_Delay                               0x08001325   Thumb Code    40  main.o(i.msec_Delay)
+    _fp_init                                 0x08001361   Thumb Code    10  fpinit.o(x$fpl$fpinit)
+    __fplib_config_fpu_vfp                   0x08001369   Thumb Code     0  fpinit.o(x$fpl$fpinit)
+    __fplib_config_pureend_doubles           0x08001369   Thumb Code     0  fpinit.o(x$fpl$fpinit)
+    __stdin_name                             0x0800136a   Data           7  retarget_io.o(.constdata)
+    __stdout_name                            0x08001371   Data           8  retarget_io.o(.constdata)
+    __stderr_name                            0x08001379   Data           8  retarget_io.o(.constdata)
+    AHBPrescTable                            0x08001381   Data          16  system_stm32f4xx.o(.constdata)
+    APBPrescTable                            0x08001391   Data           8  system_stm32f4xx.o(.constdata)
+    Region$$Table$$Base                      0x0800139c   Number         0  anon$$obj.o(Region$$Table)
+    Region$$Table$$Limit                     0x080013bc   Number         0  anon$$obj.o(Region$$Table)
     Delay                                    0x20000000   Data           4  main.o(.data)
     myIWatchDog                              0x20000004   Data           4  main.o(.data)
     SystemCoreClock                          0x20000008   Data           4  system_stm32f4xx.o(.data)
@@ -878,9 +878,9 @@ Memory Map of the image
 
   Image Entry point : 0x08000239
 
-  Load Region LR_1 (Base: 0x08000000, Size: 0x00001300, Max: 0xffffffff, ABSOLUTE)
+  Load Region LR_1 (Base: 0x08000000, Size: 0x000013d4, Max: 0xffffffff, ABSOLUTE)
 
-    Execution Region ER_RO (Base: 0x08000000, Size: 0x000012e8, Max: 0xffffffff, ABSOLUTE)
+    Execution Region ER_RO (Base: 0x08000000, Size: 0x000013bc, Max: 0xffffffff, ABSOLUTE)
 
     Base Addr    Size         Type   Attr      Idx    E Section Name        Object
 
@@ -989,14 +989,14 @@ Memory Map of the image
     0x08000fd0   0x0000002c   Code   RO           85    i._sys_seek         retarget_io.o
     0x08000ffc   0x00000046   Code   RO           86    i._sys_write        retarget_io.o
     0x08001042   0x0000001a   Code   RO          251    i.fputc             c_w.l(fputc.o)
-    0x0800105c   0x000001f4   Code   RO            5    i.main              main.o
-    0x08001250   0x00000030   Code   RO            6    i.msec_Delay        main.o
-    0x08001280   0x0000000c   Code   RO           87    i.stdout_putchar    retarget_io.o
-    0x0800128c   0x0000000a   Code   RO          468    x$fpl$fpinit        fz_wm.l(fpinit.o)
-    0x08001296   0x00000017   Data   RO           88    .constdata          retarget_io.o
-    0x080012ad   0x00000018   Data   RO          178    .constdata          system_stm32f4xx.o
-    0x080012c5   0x00000003   PAD
-    0x080012c8   0x00000020   Data   RO          559    Region$$Table       anon$$obj.o
+    0x0800105c   0x000002c8   Code   RO            5    i.main              main.o
+    0x08001324   0x00000030   Code   RO            6    i.msec_Delay        main.o
+    0x08001354   0x0000000c   Code   RO           87    i.stdout_putchar    retarget_io.o
+    0x08001360   0x0000000a   Code   RO          468    x$fpl$fpinit        fz_wm.l(fpinit.o)
+    0x0800136a   0x00000017   Data   RO           88    .constdata          retarget_io.o
+    0x08001381   0x00000018   Data   RO          178    .constdata          system_stm32f4xx.o
+    0x08001399   0x00000003   PAD
+    0x0800139c   0x00000020   Data   RO          559    Region$$Table       anon$$obj.o
 
 
     Execution Region ER_RW (Base: 0x20000000, Size: 0x00000018, Max: 0xffffffff, ABSOLUTE)
@@ -1030,13 +1030,13 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Object Name
 
-       572         56          0          8          0     559291   main.o
+       784         58          0          8          0     559439   main.o
        388         30         23          0          0       6798   retarget_io.o
         64         26        392          0       1536        864   startup_stm32f407xx.o
        292         40         24          4          0       2051   system_stm32f4xx.o
 
     ----------------------------------------------------------------------
-      1318        152        474         12       1536     569004   Object Totals
+      1530        154        474         12       1536     569152   Object Totals
          0          0         32          0          0          0   (incl. Generated)
          2          0          3          0          0          0   (incl. Padding)
 
@@ -1120,15 +1120,15 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-      4366        348        474         24       1888     569720   Grand Totals
-      4366        348        474         24       1888     569720   ELF Image Totals
-      4366        348        474         24          0          0   ROM Totals
+      4578        350        474         24       1888     569868   Grand Totals
+      4578        350        474         24       1888     569868   ELF Image Totals
+      4578        350        474         24          0          0   ROM Totals
 
 ==============================================================================
 
-    Total RO  Size (Code + RO Data)                 4840 (   4.73kB)
+    Total RO  Size (Code + RO Data)                 5052 (   4.93kB)
     Total RW  Size (RW Data + ZI Data)              1912 (   1.87kB)
-    Total ROM Size (Code + RO Data + RW Data)       4864 (   4.75kB)
+    Total ROM Size (Code + RO Data + RW Data)       5076 (   4.96kB)
 
 ==============================================================================
 
