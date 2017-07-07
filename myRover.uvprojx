@@ -387,6 +387,16 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>References</GroupName>
+          <Files>
+            <File>
+              <FileName>Design.txt</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Design.txt</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>::CMSIS</GroupName>
         </Group>
         <Group>
