@@ -153,78 +153,78 @@ int main(){
 	//Enable clock for PORTB
 	myRCC->AHB1ENR |= RCC_AHB1ENR_GPIOBEN;
 	
-	// Set-up PB6, PB7, PB8, PB9 as slow speed general purpose push-pull output w/ pulldown
+	// Set-up PB6, PB7, PB8, PB9 as slow speed ALTERNATE purpose push-pull output w/ pulldown
 	myPortB->MODER &= ~(GPIO_MODER_MODE6 | GPIO_MODER_MODE7 | GPIO_MODER_MODE8 | GPIO_MODER_MODE9);
-	myPortB->MODER |= (GPIO_MODER_MODE6_0 | GPIO_MODER_MODE7_0 | GPIO_MODER_MODE8_0 | GPIO_MODER_MODE9_0);
+	myPortB->MODER |= (GPIO_MODER_MODE6_1 | GPIO_MODER_MODE7_1 | GPIO_MODER_MODE8_1 | GPIO_MODER_MODE9_1);
 	myPortB->OTYPER &= ~(GPIO_OTYPER_OT6 | GPIO_OTYPER_OT7 | GPIO_OTYPER_OT8 | GPIO_OTYPER_OT9);
 	myPortB->OSPEEDR &= ~(GPIO_OSPEEDR_OSPEED6 | GPIO_OSPEEDR_OSPEED7 | GPIO_OSPEEDR_OSPEED8 | GPIO_OSPEEDR_OSPEED9);
 	myPortB->PUPDR &= ~(GPIO_PUPDR_PUPD6 | GPIO_PUPDR_PUPD7 | GPIO_PUPDR_PUPD8 | GPIO_PUPDR_PUPD9);
-//	myPortB->PUPDR |= GPIO_PUPDR_PUPD6_1 | GPIO_PUPDR_PUPD7_1 | GPIO_PUPDR_PUPD8_1 | GPIO_PUPDR_PUPD9_1;
-	myPortB->PUPDR |= GPIO_PUPDR_PUPD6_0 | GPIO_PUPDR_PUPD7_0 | GPIO_PUPDR_PUPD8_0 | GPIO_PUPDR_PUPD9_0;
+	myPortB->PUPDR |= GPIO_PUPDR_PUPD6_1 | GPIO_PUPDR_PUPD7_1 | GPIO_PUPDR_PUPD8_1 | GPIO_PUPDR_PUPD9_1;
+	//myPortB->PUPDR |= GPIO_PUPDR_PUPD6_0 | GPIO_PUPDR_PUPD7_0 | GPIO_PUPDR_PUPD8_0 | GPIO_PUPDR_PUPD9_0;
 
-//	// Set-up PB6:PB7:PB8:PB9 to alternate funtion 2 i.e. TIM4_CH1:2:3:4
-//	myPortB->AFR[0] &= ~(GPIO_AFRL_AFSEL6 | GPIO_AFRL_AFSEL7);
-//	myPortB->AFR[0] |= GPIO_AFRL_AFSEL6_1 | GPIO_AFRL_AFSEL7_1;
-//	myPortB->AFR[1] &= ~(GPIO_AFRH_AFSEL8 | GPIO_AFRH_AFSEL9);
-//	myPortB->AFR[1] |= GPIO_AFRH_AFSEL8_1 | GPIO_AFRH_AFSEL9_1;
-//	/* END - Set-up PB6, PB7, PB8, PB9 as low-speed gpio push-pull output w/ pulldown; muxed to AF2 */
+	// Set-up PB6:PB7:PB8:PB9 to alternate funtion 2 i.e. TIM4_CH1:2:3:4
+	myPortB->AFR[0] &= ~(GPIO_AFRL_AFSEL6 | GPIO_AFRL_AFSEL7);
+	myPortB->AFR[0] |= GPIO_AFRL_AFSEL6_1 | GPIO_AFRL_AFSEL7_1;
+	myPortB->AFR[1] &= ~(GPIO_AFRH_AFSEL8 | GPIO_AFRH_AFSEL9);
+	myPortB->AFR[1] |= GPIO_AFRH_AFSEL8_1 | GPIO_AFRH_AFSEL9_1;
+	/* END - Set-up PB6, PB7, PB8, PB9 as low-speed gpio push-pull output w/ pulldown; muxed to AF2 */
 	
-//	/* START - Set-up TIMER4 for edge-aligned PWM@10KHz with outputs on CH1:2:3:4 */
-//	// Enable clock for TIMER4
-//	myRCC->APB1ENR |= RCC_APB1ENR_TIM4EN;
-//	
-//	// Enable ALL timer4 update events; counts-up; edge-aligned pwm
-//	myTimer4->CR1 = TIMER4_CR1_RESET;
-//	myTimer4->CR1 &= ~(TIM_CR1_UDIS | TIM_CR1_URS | TIM_CR1_DIR | TIM_CR1_CMS);
-//	myTimer4->CR1 |= TIM_CR1_ARPE;
-//	
-//	
-//	// CH2:1 PWM MODE 1 outputs w/ preloads; disable fast-enable;
-//	myTimer4->CCMR1 = TIMER4_CCMR1_RESET;
-//	myTimer4->CCMR1 &= ~(TIM_CCMR1_CC1S | TIM_CCMR1_OC1FE | TIM_CCMR1_CC2S | TIM_CCMR1_OC2FE );
-//	myTimer4->CCMR1 |= TIM_CCMR1_OC1PE | TIM_CCMR1_OC2PE;
-//	myTimer4->CCMR1 |= TIM_CCMR1_OC1M_2 | TIM_CCMR1_OC1M_1 | TIM_CCMR1_OC2M_2 | TIM_CCMR1_OC2M_1;
-//	
-//	// CH4:3 PWM MODE 1 outputs w/ preloads; disable fast-enable;
-//	myTimer4->CCMR2 = TIMER4_CCMR2_RESET;
-//	myTimer4->CCMR2 &= ~(TIM_CCMR2_CC3S | TIM_CCMR2_OC3FE |TIM_CCMR2_CC4S | TIM_CCMR2_OC4FE);
-//	myTimer4->CCMR2 |= TIM_CCMR2_OC3PE | TIM_CCMR2_OC4PE;
-//	myTimer4->CCMR2 |= TIM_CCMR2_OC3M_2 | TIM_CCMR2_OC3M_1 | TIM_CCMR2_OC4M_2 | TIM_CCMR2_OC4M_1;
-//	
-//	//
-//	myTimer4->CCER = TIMER4_CCER_RESET;
-//	myTimer4->CCER &= ~(TIM_CCER_CC1P | TIM_CCER_CC1NP | 
-//											TIM_CCER_CC2P | TIM_CCER_CC2NP |
-//											TIM_CCER_CC3P | TIM_CCER_CC3NP |
-//											TIM_CCER_CC4P | TIM_CCER_CC4NP);
-//	myTimer4->CCER |= TIM_CCER_CC1E | TIM_CCER_CC2E | TIM_CCER_CC3E | TIM_CCER_CC4E;
-//	
-//	// No prescaler
-//	myTimer4->PSC = TIMER4_PSC_RESET;
-//	
-//	// PWM@10Khz w/ APB1@42Mhz
-//	myTimer4->ARR = 4200;
-//	
-//	// CH1:2:3:4 @50% duty cycle
-//	myTimer4->CCR1 = 2200;
-//	myTimer4->CCR2 = 2200;
-//	myTimer4->CCR3 = 2200;
-//	myTimer4->CCR4 = 2200;
-//	
-//	// Enable timer4
-//	myTimer4->CR1 |= TIM_CR1_CEN;
-//	/* END - Set-up TIMER4 for edge-aligned PWM@10KHz with outputs on CH1:2:3:4 */
+	/* START - Set-up TIMER4 for edge-aligned PWM@10KHz with outputs on CH1:2:3:4 */
+	// Enable clock for TIMER4
+	myRCC->APB1ENR |= RCC_APB1ENR_TIM4EN;
+	
+	// Enable ALL timer4 update events; counts-up; edge-aligned pwm
+	myTimer4->CR1 = TIMER4_CR1_RESET;
+	myTimer4->CR1 &= ~(TIM_CR1_UDIS | TIM_CR1_URS | TIM_CR1_DIR | TIM_CR1_CMS);
+	myTimer4->CR1 |= TIM_CR1_ARPE;
+	
+	
+	// CH2:1 PWM MODE 1 outputs w/ preloads; disable fast-enable;
+	myTimer4->CCMR1 = TIMER4_CCMR1_RESET;
+	myTimer4->CCMR1 &= ~(TIM_CCMR1_CC1S | TIM_CCMR1_OC1FE | TIM_CCMR1_CC2S | TIM_CCMR1_OC2FE );
+	myTimer4->CCMR1 |= TIM_CCMR1_OC1PE | TIM_CCMR1_OC2PE;
+	myTimer4->CCMR1 |= TIM_CCMR1_OC1M_2 | TIM_CCMR1_OC1M_1 | TIM_CCMR1_OC2M_2 | TIM_CCMR1_OC2M_1;
+	
+	// CH4:3 PWM MODE 1 outputs w/ preloads; disable fast-enable;
+	myTimer4->CCMR2 = TIMER4_CCMR2_RESET;
+	myTimer4->CCMR2 &= ~(TIM_CCMR2_CC3S | TIM_CCMR2_OC3FE |TIM_CCMR2_CC4S | TIM_CCMR2_OC4FE);
+	myTimer4->CCMR2 |= TIM_CCMR2_OC3PE | TIM_CCMR2_OC4PE;
+	myTimer4->CCMR2 |= TIM_CCMR2_OC3M_2 | TIM_CCMR2_OC3M_1 | TIM_CCMR2_OC4M_2 | TIM_CCMR2_OC4M_1;
+	
+	//
+	myTimer4->CCER = TIMER4_CCER_RESET;
+	myTimer4->CCER &= ~(TIM_CCER_CC1P | TIM_CCER_CC1NP | 
+											TIM_CCER_CC2P | TIM_CCER_CC2NP |
+											TIM_CCER_CC3P | TIM_CCER_CC3NP |
+											TIM_CCER_CC4P | TIM_CCER_CC4NP);
+	myTimer4->CCER |= TIM_CCER_CC1E | TIM_CCER_CC2E | TIM_CCER_CC3E | TIM_CCER_CC4E;
+	
+	// No prescaler
+	myTimer4->PSC = TIMER4_PSC_RESET;
+	
+	// PWM@10Khz w/ APB1@42Mhz
+	myTimer4->ARR = 4200;
+	
+	// CH1:2:3:4 @50% duty cycle
+	myTimer4->CCR1 = 2200;
+	myTimer4->CCR2 = 2200;
+	myTimer4->CCR3 = 2200;
+	myTimer4->CCR4 = 2200;
+	
+	// Enable timer4
+	myTimer4->CR1 |= TIM_CR1_CEN;
+	/* END - Set-up TIMER4 for edge-aligned PWM@10KHz with outputs on CH1:2:3:4 */
 	
 	
 	while(TRUE){
 		
 		// Atomically set PD12
 		myPortD->BSRR |= GPIO_BSRR_BS12;
+		//myPortB->ODR |= GPIO_ODR_OD6| GPIO_ODR_OD7 | GPIO_ODR_OD8 | GPIO_ODR_OD9;
 		msec_Delay(1000);
-		//for( tmpctr = DELAY_COUNTER; tmpctr > 0; --tmpctr);
 		// Atomically reset PD12
 		myPortD->BSRR |= GPIO_BSRR_BR12;
-		//for( tmpctr = DELAY_COUNTER; tmpctr > 0; --tmpctr);
+		//myPortB->ODR &= ~(GPIO_ODR_OD6| GPIO_ODR_OD7 | GPIO_ODR_OD8 | GPIO_ODR_OD9);
 		msec_Delay(1000);
 	}
 	
