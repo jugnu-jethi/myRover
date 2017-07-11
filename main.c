@@ -39,7 +39,9 @@
 
 
 volatile uint32_t Delay = 0;
+volatile uint32_t myTaskFlags = 0;
 volatile IWDG_TypeDef *myIWatchDog = IWDG;
+volatile EXTI_TypeDef *myEXTI = EXTI;
 
 
 
@@ -55,8 +57,9 @@ int main(){
 	
 	uint32_t timeout = 0;
 	RCC_TypeDef *myRCC = RCC;
-	GPIO_TypeDef *myPortD = GPIOD;
+	GPIO_TypeDef *myPortA = GPIOA;
 	GPIO_TypeDef *myPortB = GPIOB;
+	GPIO_TypeDef *myPortD = GPIOD;
 	FLASH_TypeDef *myFlash = FLASH;
 	TIM_TypeDef *myTimer4 = TIM4;
 	SYSCFG_TypeDef *mySysCfg = SYSCFG;
@@ -119,6 +122,7 @@ int main(){
 	// Enable IO Compensation Cell to improve ringing on PWM waveforms???
 	// Enable clock for SYSCFG
 	myRCC->APB2ENR |= RCC_APB2ENR_SYSCFGEN;
+	
 	mySysCfg->CMPCR |= SYSCFG_CMPCR_CMP_PD;
 	timeout = CONFIG_TIMEOUT_DURATION;
 	while(SYSCFG_CMPCR_READY != (mySysCfg->CMPCR & SYSCFG_CMPCR_READY)){
@@ -127,24 +131,17 @@ int main(){
 	Manage_Timeout(timeout);
 #endif
 	
-	/* START - Set-up PD12, PD13 as low-speed gpio push-pull output */
+	/* START - Set-up PD12, PD13, PD14, PD15 as low-speed gpio push-pull output */
 	// Enable clock for GPIOD
 	myRCC->AHB1ENR |= RCC_AHB1ENR_GPIODEN;
 	
-	// Set-up PD12 as slow speed general purpose push-pull output
-	myPortD->MODER |= GPIO_MODER_MODE12_0;
-	myPortD->MODER &= ~(GPIO_MODER_MODE12_1);
-	myPortD->OTYPER &= ~(GPIO_OTYPER_OT12);
-	myPortD->OSPEEDR &= ~(GPIO_OSPEEDR_OSPEED12);
-	myPortD->PUPDR  &= ~(GPIO_PUPDR_PUPD12);
-	
-	// Set-up PD13 as slow speed general purpose push-pull output
-	myPortD->MODER |= GPIO_MODER_MODE13_0;
-	myPortD->MODER &= ~(GPIO_MODER_MODE13_1);
-	myPortD->OTYPER &= ~(GPIO_OTYPER_OT13);
-	myPortD->OSPEEDR &= ~(GPIO_OSPEEDR_OSPEED13);
-	myPortD->PUPDR  &= ~(GPIO_PUPDR_PUPD13);
-	/* END - Set-up PD12, PD13 as low-speed push-pull gpo */
+	// Set-up PD12:13:14:15 as slow speed general purpose push-pull output
+	myPortD->MODER |= GPIO_MODER_MODE12_0 | GPIO_MODER_MODE13_0 | GPIO_MODER_MODE14_0 | GPIO_MODER_MODE15_0;
+	myPortD->MODER &= ~(GPIO_MODER_MODE12_1 | GPIO_MODER_MODE13_1 | GPIO_MODER_MODE14_1 | GPIO_MODER_MODE15_1);
+	myPortD->OTYPER &= ~(GPIO_OTYPER_OT12 | GPIO_OTYPER_OT13 | GPIO_OTYPER_OT14 | GPIO_OTYPER_OT15);
+	myPortD->OSPEEDR &= ~(GPIO_OSPEEDR_OSPEED12 | GPIO_OSPEEDR_OSPEED13 | GPIO_OSPEEDR_OSPEED14 | GPIO_OSPEEDR_OSPEED15);
+	myPortD->PUPDR &= ~(GPIO_PUPDR_PUPD12 | GPIO_PUPDR_PUPD13 | GPIO_PUPDR_PUPD14 | GPIO_PUPDR_PUPD15);
+	/* END - Set-up PD12, PD13, PD14, PD15 as low-speed gpio push-pull output */
 
 #ifdef SYSTICK_ENABLE
 	// Set-up for a systick of every 1ms
@@ -248,20 +245,64 @@ int main(){
 	myTimer4->CR1 |= TIM_CR1_CEN;
 	/* END - Set-up TIMER4 for edge-aligned PWM@10KHz with outputs on CH1:2:3:4 */
 	
+	/* START - Set-up push button on PA0; Attach to EXTI0 */
+	// Enable clock for GPIOA
+	myRCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN;
+	
+	// Set-up PA0 as slow speed general purpose push-pull input
+	myPortA->MODER &= ~(GPIO_MODER_MODE0);
+	myPortA->OTYPER &= ~(GPIO_OTYPER_OT0);
+	myPortA->OSPEEDR &= ~(GPIO_OSPEEDR_OSPEED0);
+	myPortD->PUPDR &= ~(GPIO_PUPDR_PUPD0);
+
+	// Select EXTI0 interrupt on pin PA0
+	mySysCfg->EXTICR[0] &= ~(SYSCFG_EXTICR1_EXTI0);
+	mySysCfg->EXTICR[0] |= (SYSCFG_EXTICR1_EXTI0 & SYSCFG_EXTICR1_EXTI0_PA);
+	
+	// Enable EXTI0 interrupt w/ rising trigger edge
+	myEXTI->IMR |= EXTI_IMR_MR0;
+	myEXTI->RTSR |= EXTI_RTSR_TR0;
+	
+	__NVIC_EnableIRQ(EXTI0_IRQn);
+	/* START - Set-up push button on PA0 */
+	
 	
 	while(TRUE){
 		
+		// Decrement duty cycle in 10% decrements
 		if( 0 >= myTimer4->CCR2) myTimer4->CCR2 = TIMER4_PWM_FREQUENCY;
 		else myTimer4->CCR2 -= 420;
+		
 		// Atomically set PD12
 		myPortD->BSRR |= GPIO_BSRR_BS12;
+		
+		// Set Red LED@PD14 if flag bit is set
+		if(0x0001 == (myTaskFlags & 0x0001)){
+			
+			myTaskFlags &= ~(0x0001);
+			myPortD->BSRR |= GPIO_BSRR_BS14;
+		}
+		
+		// Disable CH2@PB7
 		myTimer4->CCER &= ~(TIM_CCER_CC2E);
+		
+		// Set PB6:7:8:9
 		//myPortB->ODR |= GPIO_ODR_OD6| GPIO_ODR_OD7 | GPIO_ODR_OD8 | GPIO_ODR_OD9;
+		
 		msec_Delay(1000);
+		
 		// Atomically reset PD12
 		myPortD->BSRR |= GPIO_BSRR_BR12;
+		
+		// Reset Red LED@PD14(Atomically)
+		myPortD->BSRR |= GPIO_BSRR_BR14;
+		
+		// Enable CH2@PB7
 		myTimer4->CCER |= (TIM_CCER_CC2E);
+		
+		// Reset PB6:7:8:9
 		//myPortB->ODR &= ~(GPIO_ODR_OD6| GPIO_ODR_OD7 | GPIO_ODR_OD8 | GPIO_ODR_OD9);
+		
 		msec_Delay(1000);
 	}
 	
@@ -284,13 +325,24 @@ void SysTick_Handler(void){
 
 
 
+void EXTI0_IRQHandler(void){
+	
+	__NVIC_ClearPendingIRQ(EXTI0_IRQn);
+	myEXTI->PR |= EXTI_PR_PR0;
+	myTaskFlags |= 0x0001;
+}
+
+
+
 #if defined(SYSTICK_ENABLE)
 void msec_Delay(uint32_t nTime){
+	
 	Delay = nTime;
 	while(Delay != 0);
 }
 #else
 void msec_Delay(uint32_t nTime){
+	
 	Delay = nTime * (SystemCoreClock/(FREQ_AN_MSEC * MSEC_CALIBRATION_FACTOR));
 	while(Delay != 0) --Delay;
 }
