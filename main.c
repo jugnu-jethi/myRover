@@ -5,12 +5,13 @@
 
 #define SYSTICK_ENABLE
 #define WATCHDOG_ENABLE
+//#define IO_COMPENSATION_CELL_ENABLE
 
 
 
-#define FALSE (0)
-#define TRUE !(FALSE)
-#define TIMED_OUT (0)
+#define FALSE (0U)
+#define TRUE (!FALSE)
+#define TIMED_OUT (0U)
 #define CONFIG_TIMEOUT_DURATION (0XFFFFFFFF)
 #define PLLM_DIV_4 ((4U) << RCC_PLLCFGR_PLLM_Pos)
 #define PLLM_DIV_8 ((8U) << RCC_PLLCFGR_PLLM_Pos)
@@ -29,8 +30,11 @@
 #define TIMER4_CCMR2_RESET TIMER4_CCMR1_RESET
 #define TIMER4_CCER_RESET TIMER4_CCMR2_RESET
 #define TIMER4_PSC_RESET TIMER4_CCMR2_RESET
-#define FREQ_AN_MSEC (1000)
-#define MSEC_CALIBRATION_FACTOR (20)
+#define FREQ_AN_MSEC (1000U)
+#define MSEC_CALIBRATION_FACTOR (20U)
+#define TIMER4_PSC_VALUE TIMER4_PSC_RESET
+#define DRV8833_PWM_FREQUENCY (20000U)
+#define TIMER4_PWM_FREQUENCY (84000000U/((TIMER4_PSC_VALUE + 1U) * DRV8833_PWM_FREQUENCY))
 
 
 
@@ -75,7 +79,7 @@ int main(){
 	myRCC->CR &= ~(RCC_CR_HSEBYP);
 	myRCC->CR |= RCC_CR_HSEON;
 	timeout = CONFIG_TIMEOUT_DURATION;
-	while(FALSE == (myRCC->CR & RCC_CR_HSERDY)){
+	while(RCC_CR_HSERDY != (myRCC->CR & RCC_CR_HSERDY)){
 		if(timeout != TIMED_OUT) --timeout;
 	}
 	Manage_Timeout(timeout);
@@ -94,7 +98,7 @@ int main(){
 	// Enable PLL
 	myRCC->CR |= RCC_CR_PLLON;
 	timeout = CONFIG_TIMEOUT_DURATION;
-	while(FALSE == (myRCC->CR & RCC_CR_PLLRDY)){
+	while(RCC_CR_PLLRDY != (myRCC->CR & RCC_CR_PLLRDY)){
 		if(timeout != TIMED_OUT) --timeout;
 	}
 	Manage_Timeout(timeout);
@@ -110,16 +114,18 @@ int main(){
 	
 	// Update SystemCoreClock variable
 	SystemCoreClockUpdate();
-	
+
+#if defined(IO_COMPENSATION_CELL_ENABLE)
 	// Enable IO Compensation Cell to improve ringing on PWM waveforms???
 	// Enable clock for SYSCFG
-//	myRCC->APB2ENR |= RCC_APB2ENR_SYSCFGEN;
-//	mySysCfg->CMPCR |= SYSCFG_CMPCR_CMP_PD;
-//	timeout = CONFIG_TIMEOUT_DURATION;
-//	while(FALSE == (mySysCfg->CMPCR & SYSCFG_CMPCR_READY)){
-//		if(timeout != TIMED_OUT) --timeout;
-//	}
-//	Manage_Timeout(timeout);
+	myRCC->APB2ENR |= RCC_APB2ENR_SYSCFGEN;
+	mySysCfg->CMPCR |= SYSCFG_CMPCR_CMP_PD;
+	timeout = CONFIG_TIMEOUT_DURATION;
+	while(SYSCFG_CMPCR_READY != (mySysCfg->CMPCR & SYSCFG_CMPCR_READY)){
+		if(timeout != TIMED_OUT) --timeout;
+	}
+	Manage_Timeout(timeout);
+#endif
 	
 	/* START - Set-up PD12, PD13 as low-speed gpio push-pull output */
 	// Enable clock for GPIOD
@@ -146,10 +152,21 @@ int main(){
 #endif
 	
 	// TBR - Code to demo watchdog reset
-	msec_Delay(2000);
-	myPortD->BSRR |= GPIO_BSRR_BS13;
+//	msec_Delay(2000);
+//	myPortD->BSRR |= GPIO_BSRR_BS13;
+	if(RCC_CSR_WDGRSTF == (myRCC->CSR & RCC_CSR_WDGRSTF)){
+		myPortD->BSRR |= GPIO_BSRR_BS13;
+		myRCC->CSR |= RCC_CSR_RMVF;
+		timeout = CONFIG_TIMEOUT_DURATION;
+		while(RCC_CSR_WDGRSTF == (myRCC->CSR & RCC_CSR_WDGRSTF)){
+			if(timeout != TIMED_OUT) --timeout;
+		}
+		Manage_Timeout(timeout);
+		msec_Delay(2000);
+		myPortD->BSRR |= GPIO_BSRR_BR13;
+	}
 	
-#if defined(SYSTICK_ENABLE) && defined(WATHDOG_ENABLE)
+#if defined(SYSTICK_ENABLE) && defined(WATCHDOG_ENABLE)
 	// Set-up IWDG for reset of 32768ms
 	myIWatchDog->KR = IWDG_UNLOCK_KEY;
 	myIWatchDog->PR = IWDG_PRESCALER_256;
@@ -171,11 +188,11 @@ int main(){
 	myPortB->MODER |= (GPIO_MODER_MODE6_1 | GPIO_MODER_MODE7_1 | GPIO_MODER_MODE8_1 | GPIO_MODER_MODE9_1);
 	myPortB->OTYPER &= ~(GPIO_OTYPER_OT6 | GPIO_OTYPER_OT7 | GPIO_OTYPER_OT8 | GPIO_OTYPER_OT9);
 	myPortB->OSPEEDR &= ~(GPIO_OSPEEDR_OSPEED6 | GPIO_OSPEEDR_OSPEED7 | GPIO_OSPEEDR_OSPEED8 | GPIO_OSPEEDR_OSPEED9);
-	//myPortB->OSPEEDR |= (GPIO_OSPEEDR_OSPEED6 | GPIO_OSPEEDR_OSPEED7 | GPIO_OSPEEDR_OSPEED8 | GPIO_OSPEEDR_OSPEED9);
-	//myPortB->OSPEEDR |= GPIO_OSPEEDER_OSPEEDR6_0 | GPIO_OSPEEDER_OSPEEDR7_0 | GPIO_OSPEEDER_OSPEEDR8_0 | GPIO_OSPEEDER_OSPEEDR9_0;
+	//myPortB->OSPEEDR |= (GPIO_OSPEEDR_OSPEED6 | GPIO_OSPEEDR_OSPEED7 | GPIO_OSPEEDR_OSPEED8 | GPIO_OSPEEDR_OSPEED9); // very hi-speed
+	//myPortB->OSPEEDR |= GPIO_OSPEEDER_OSPEEDR6_0 | GPIO_OSPEEDER_OSPEEDR7_0 | GPIO_OSPEEDER_OSPEEDR8_0 | GPIO_OSPEEDER_OSPEEDR9_0; // medium speed
 	myPortB->PUPDR &= ~(GPIO_PUPDR_PUPD6 | GPIO_PUPDR_PUPD7 | GPIO_PUPDR_PUPD8 | GPIO_PUPDR_PUPD9);
 	myPortB->PUPDR |= GPIO_PUPDR_PUPD6_1 | GPIO_PUPDR_PUPD7_1 | GPIO_PUPDR_PUPD8_1 | GPIO_PUPDR_PUPD9_1;
-	//myPortB->PUPDR |= GPIO_PUPDR_PUPD6_0 | GPIO_PUPDR_PUPD7_0 | GPIO_PUPDR_PUPD8_0 | GPIO_PUPDR_PUPD9_0;
+	//myPortB->PUPDR |= GPIO_PUPDR_PUPD6_0 | GPIO_PUPDR_PUPD7_0 | GPIO_PUPDR_PUPD8_0 | GPIO_PUPDR_PUPD9_0; // pull-up
 
 	// Set-up PB6:PB7:PB8:PB9 to alternate funtion 2 i.e. TIM4_CH1:2:3:4
 	myPortB->AFR[0] &= ~(GPIO_AFRL_AFSEL6 | GPIO_AFRL_AFSEL7);
@@ -194,13 +211,13 @@ int main(){
 	myTimer4->CR1 |= TIM_CR1_ARPE;
 	
 	
-	// CH2:1 PWM MODE 1 outputs w/ preloads; disable fast-enable;
+	// CH1:2 PWM MODE 1 outputs w/ preloads; disable fast-enable;
 	myTimer4->CCMR1 = TIMER4_CCMR1_RESET;
 	myTimer4->CCMR1 &= ~(TIM_CCMR1_CC1S | TIM_CCMR1_OC1FE | TIM_CCMR1_CC2S | TIM_CCMR1_OC2FE );
 	myTimer4->CCMR1 |= TIM_CCMR1_OC1PE | TIM_CCMR1_OC2PE;
 	myTimer4->CCMR1 |= TIM_CCMR1_OC1M_2 | TIM_CCMR1_OC1M_1 | TIM_CCMR1_OC2M_2 | TIM_CCMR1_OC2M_1;
 	
-	// CH4:3 PWM MODE 1 outputs w/ preloads; disable fast-enable;
+	// CH3:4 PWM MODE 1 outputs w/ preloads; disable fast-enable;
 	myTimer4->CCMR2 = TIMER4_CCMR2_RESET;
 	myTimer4->CCMR2 &= ~(TIM_CCMR2_CC3S | TIM_CCMR2_OC3FE |TIM_CCMR2_CC4S | TIM_CCMR2_OC4FE);
 	myTimer4->CCMR2 |= TIM_CCMR2_OC3PE | TIM_CCMR2_OC4PE;
@@ -215,16 +232,17 @@ int main(){
 	myTimer4->CCER |= TIM_CCER_CC1E | TIM_CCER_CC2E | TIM_CCER_CC3E | TIM_CCER_CC4E;
 	
 	// No prescaler
-	myTimer4->PSC = TIMER4_PSC_RESET;
+	myTimer4->PSC = TIMER4_PSC_VALUE;
 	
 	// PWM@10Khz w/ APB1@42Mhz
-	myTimer4->ARR = 4200;
+	// Note: Timer4 RCC input clock is doubled internally to 84Mhz(42Mhz x 2)
+	myTimer4->ARR = TIMER4_PWM_FREQUENCY;
 	
 	// CH1:2:3:4 @50% duty cycle
-	myTimer4->CCR1 = 2200;
-	myTimer4->CCR2 = 2200;
-	myTimer4->CCR3 = 2200;
-	myTimer4->CCR4 = 2200;
+	myTimer4->CCR1 = 2100;
+	myTimer4->CCR2 = 2100;
+	myTimer4->CCR3 = 2100;
+	myTimer4->CCR4 = 2100;
 	
 	// Enable timer4
 	myTimer4->CR1 |= TIM_CR1_CEN;
@@ -233,12 +251,16 @@ int main(){
 	
 	while(TRUE){
 		
+		if( 0 >= myTimer4->CCR2) myTimer4->CCR2 = TIMER4_PWM_FREQUENCY;
+		else myTimer4->CCR2 -= 420;
 		// Atomically set PD12
 		myPortD->BSRR |= GPIO_BSRR_BS12;
+		myTimer4->CCER &= ~(TIM_CCER_CC2E);
 		//myPortB->ODR |= GPIO_ODR_OD6| GPIO_ODR_OD7 | GPIO_ODR_OD8 | GPIO_ODR_OD9;
 		msec_Delay(1000);
 		// Atomically reset PD12
 		myPortD->BSRR |= GPIO_BSRR_BR12;
+		myTimer4->CCER |= (TIM_CCER_CC2E);
 		//myPortB->ODR &= ~(GPIO_ODR_OD6| GPIO_ODR_OD7 | GPIO_ODR_OD8 | GPIO_ODR_OD9);
 		msec_Delay(1000);
 	}
@@ -252,8 +274,8 @@ int main(){
 
 void SysTick_Handler(void){
 	
+#if defined(SYSTICK_ENABLE) && defined(WATCHDOG_ENABLE)
 	// Re-load watchdog counter
-#if defined(SYSTICK_ENABLE) && defined(WATHDOG_ENABLE)
 	myIWatchDog->KR = 0xAAAA;
 #endif
 	
@@ -267,7 +289,6 @@ void msec_Delay(uint32_t nTime){
 	Delay = nTime;
 	while(Delay != 0);
 }
-
 #else
 void msec_Delay(uint32_t nTime){
 	Delay = nTime * (SystemCoreClock/(FREQ_AN_MSEC * MSEC_CALIBRATION_FACTOR));
