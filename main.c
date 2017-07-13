@@ -1,55 +1,4 @@
-#include "stm32f4xx.h"
-#include <stdio.h>
-
-
-
-#define SYSTICK_ENABLE
-#define WATCHDOG_ENABLE
-//#define IO_COMPENSATION_CELL_ENABLE
-
-
-
-#define FALSE (0U)
-#define TRUE (!FALSE)
-#define TIMED_OUT (0U)
-#define CONFIG_TIMEOUT_DURATION (0XFFFFFFFF)
-#define PLLM_DIV_4 ((4U) << RCC_PLLCFGR_PLLM_Pos)
-#define PLLM_DIV_8 ((8U) << RCC_PLLCFGR_PLLM_Pos)
-#define PLLN_MUL_336 ((336U) << RCC_PLLCFGR_PLLN_Pos)
-#define PLLP_DIV_2 ((0U) << RCC_PLLCFGR_PLLP_Pos)
-#define PLLP_DIV_4 ((1U) << RCC_PLLCFGR_PLLP_Pos)
-#define PLLQ_DIV_7 ((7U) << RCC_PLLCFGR_PLLQ_Pos)
-#define PLLQ_DIV_14 ((14U) << RCC_PLLCFGR_PLLQ_Pos)
-#define IWDG_UNLOCK_KEY (0X5555)
-#define IWDG_START_KEY (0XCCCC)
-#define IWDG_RELOAD_KEY (0XAAAA)
-#define IWDG_PRESCALER_256 (7)
-#define TIMER4_CR1_RESET (0)
-#define TIMER4_CR2_RESET TIMER4_CR1_RESET
-#define TIMER4_CCMR1_RESET TIMER4_CR2_RESET
-#define TIMER4_CCMR2_RESET TIMER4_CCMR1_RESET
-#define TIMER4_CCER_RESET TIMER4_CCMR2_RESET
-#define TIMER4_PSC_RESET TIMER4_CCMR2_RESET
-#define FREQ_AN_MSEC (1000U)
-#define MSEC_CALIBRATION_FACTOR (20U)
-#define TIMER4_PSC_VALUE TIMER4_PSC_RESET
-#define DRV8833_PWM_FREQUENCY (20000U)
-#define TIMER4_PWM_FREQUENCY (84000000U/((TIMER4_PSC_VALUE + 1U) * DRV8833_PWM_FREQUENCY))
-
-
-
-volatile uint32_t Delay = 0;
-volatile uint32_t myTaskFlags = 0;
-volatile IWDG_TypeDef *myIWatchDog = IWDG;
-volatile EXTI_TypeDef *myEXTI = EXTI;
-
-
-
-void msec_Delay(uint32_t);
-// Couldn't use "inline" keyword due to linker's undefined symbol error
-// REF: http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.faqs/ka15831.html
-// REF: https://community.arm.com/tools/f/discussions/4891/inline-function-attribute-causes-undefined-symbol-linking-error
-void Manage_Timeout(uint32_t) __attribute__((always_inline));
+#include "main.h"
 
 
 
@@ -70,7 +19,6 @@ int main(){
 	myFlash->ACR &= ~(FLASH_ACR_LATENCY);
 	myFlash->ACR |= FLASH_ACR_LATENCY_5WS;
 	timeout = CONFIG_TIMEOUT_DURATION;
-	//while(FLASH_ACR_LATENCY_5WS != (myFlash->ACR & FLASH_ACR_LATENCY));
 	while(FLASH_ACR_LATENCY_5WS != (myFlash->ACR & FLASH_ACR_LATENCY)){
 		if(timeout != TIMED_OUT) --timeout;
 	}
@@ -148,9 +96,7 @@ int main(){
 	SysTick_Config((SystemCoreClock/1000) - 1);
 #endif
 	
-	// TBR - Code to demo watchdog reset
-//	msec_Delay(2000);
-//	myPortD->BSRR |= GPIO_BSRR_BS13;
+	// Indicate IWDG reset occured by flashing amber LED@PD13
 	if(RCC_CSR_WDGRSTF == (myRCC->CSR & RCC_CSR_WDGRSTF)){
 		myPortD->BSRR |= GPIO_BSRR_BS13;
 		myRCC->CSR |= RCC_CSR_RMVF;
@@ -167,7 +113,7 @@ int main(){
 	// Set-up IWDG for reset of 32768ms
 	myIWatchDog->KR = IWDG_UNLOCK_KEY;
 	myIWatchDog->PR = IWDG_PRESCALER_256;
-	myIWatchDog->RLR = 4095;
+	myIWatchDog->RLR = IWDG_RELOAD_VALUE;
 	myIWatchDog->KR = IWDG_START_KEY;
 #endif
 
@@ -233,7 +179,7 @@ int main(){
 	
 	// PWM@10Khz w/ APB1@42Mhz
 	// Note: Timer4 RCC input clock is doubled internally to 84Mhz(42Mhz x 2)
-	myTimer4->ARR = TIMER4_PWM_FREQUENCY;
+	myTimer4->ARR = TIMER4_PWM_PERIOD;
 	
 	// CH1:2:3:4 @50% duty cycle
 	myTimer4->CCR1 = 2100;
@@ -253,7 +199,7 @@ int main(){
 	myPortA->MODER &= ~(GPIO_MODER_MODE0);
 	myPortA->OTYPER &= ~(GPIO_OTYPER_OT0);
 	myPortA->OSPEEDR &= ~(GPIO_OSPEEDR_OSPEED0);
-	myPortD->PUPDR &= ~(GPIO_PUPDR_PUPD0);
+	myPortA->PUPDR &= ~(GPIO_PUPDR_PUPD0);
 
 	// Select EXTI0 interrupt on pin PA0
 	mySysCfg->EXTICR[0] &= ~(SYSCFG_EXTICR1_EXTI0);
@@ -264,13 +210,53 @@ int main(){
 	myEXTI->RTSR |= EXTI_RTSR_TR0;
 	
 	__NVIC_EnableIRQ(EXTI0_IRQn);
-	/* START - Set-up push button on PA0 */
+	/* END - Set-up push button on PA0 */
+	
+	/* START - Configure ADC1 to read from channel ADC1_IN1@PA1(single-conversion) */
+	// Enable clock for GPIOA
+	/* Not needed as already enabled prior
+	//myRCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN; */
+	
+	// Set-up PA1 as slow speed general purpose push-pull analog input
+	myPortA->MODER |= GPIO_MODER_MODE1;
+	myPortA->OTYPER &= ~(GPIO_OTYPER_OT1);
+	myPortA->OSPEEDR &= ~(GPIO_OSPEEDR_OSPEED1);
+	myPortA->PUPDR &= ~(GPIO_PUPDR_PUPD1);
+	
+	// Enable clock for ADC1 
+	myRCC->APB2ENR |= RCC_APB2ENR_ADC1EN;
+	
+	//Set-up clock for ALL ADCs, ADCCLK, to PCLK2/4
+	ADCCommonControl->CCR &= ADC_CCR_ADCPRE;
+	ADCCommonControl->CCR |= ADC_CCR_ADCPRE_0;
+	
+	// 12-bit resolution;
+	myADC1->CR1 &= ~(ADC1_CR1_RESET);
+	myADC1->CR1 &= ~(ADC_CR1_RES);
+	
+	// right align; EOC flag enabled; single-conversion mode
+	myADC1->CR2 &= ~(ADC1_CR2_RESET);
+	myADC1->CR2 &= ~(ADC_CR2_ALIGN | ADC_CR2_EOCS);
+	
+	// sampling time for channel ADC1_IN1 of 3 cycles
+	myADC1->SMPR2 &= ~(ADC_SMPR2_SMP1);
+	
+	// First group sequence is channel 1 i.e. ADC1_IN1
+	myADC1->SQR3 &= ~(ADC_SQR3_SQ1);
+	myADC1->SQR3 |= ADC_SQR3_SQ1_0;
+	
+	// Total number of conversion is ONE
+	myADC1->SQR1 &= ~(ADC_SQR1_L);
+	
+	// Switch ADC1 ON
+	myADC1->CR2 |= ADC_CR2_ADON;
+	/* END - Configure ADC1 to read from PA1 */
 	
 	
 	while(TRUE){
 		
 		// Decrement duty cycle in 10% decrements
-		if( 0 >= myTimer4->CCR2) myTimer4->CCR2 = TIMER4_PWM_FREQUENCY;
+		if( 0 >= myTimer4->CCR2) myTimer4->CCR2 = TIMER4_PWM_PERIOD;
 		else myTimer4->CCR2 -= 420;
 		
 		// Atomically set PD12
@@ -289,7 +275,13 @@ int main(){
 		// Set PB6:7:8:9
 		//myPortB->ODR |= GPIO_ODR_OD6| GPIO_ODR_OD7 | GPIO_ODR_OD8 | GPIO_ODR_OD9;
 		
+		// Start single-conversion on ADC1_IN1@PA1
+		myADC1->CR2 |= ADC_CR2_SWSTART;
+		
 		msec_Delay(1000);
+		
+		// Print ADC1_IN1@PA1 results
+		if(ADC_SR_EOC == (myADC1->SR & ADC_SR_EOC)) printf("ADC1_IN1@PA1: %d\n", ADC1->DR);
 		
 		// Atomically reset PD12
 		myPortD->BSRR |= GPIO_BSRR_BR12;
@@ -317,7 +309,7 @@ void SysTick_Handler(void){
 	
 #if defined(SYSTICK_ENABLE) && defined(WATCHDOG_ENABLE)
 	// Re-load watchdog counter
-	myIWatchDog->KR = 0xAAAA;
+	myIWatchDog->KR = IWDG_RELOAD_KEY;
 #endif
 	
 	if(Delay > 0) --Delay;
@@ -327,8 +319,9 @@ void SysTick_Handler(void){
 
 void EXTI0_IRQHandler(void){
 	
-	__NVIC_ClearPendingIRQ(EXTI0_IRQn);
-	myEXTI->PR |= EXTI_PR_PR0;
+	if(EXTI_PR_PR0 == (myEXTI->PR & EXTI_PR_PR0)) myEXTI->PR |= EXTI_PR_PR0;
+	if(__NVIC_GetPendingIRQ(EXTI0_IRQn)) __NVIC_ClearPendingIRQ(EXTI0_IRQn);
+	
 	myTaskFlags |= 0x0001;
 }
 
