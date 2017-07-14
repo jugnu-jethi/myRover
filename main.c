@@ -12,7 +12,43 @@ int main(){
 	FLASH_TypeDef *myFlash = FLASH;
 	TIM_TypeDef *myTimer4 = TIM4;
 	SYSCFG_TypeDef *mySysCfg = SYSCFG;
+	PWR_TypeDef *myPowerInterface = PWR;
 	
+	
+	
+#if defined(WATCHDOG_ENABLE)
+	// Set-up IWDG for reset of 32768ms
+	myIWatchDog->KR = IWDG_UNLOCK_KEY;
+	myIWatchDog->PR = IWDG_PRESCALER_256;
+	myIWatchDog->RLR = IWDG_RELOAD_VALUE;
+	myIWatchDog->KR = IWDG_START_KEY;
+#endif
+	
+	/* START - Set-up PD12, PD13, PD14, PD15 as low-speed gpio push-pull output */
+	// Enable clock for GPIOD
+	myRCC->AHB1ENR |= RCC_AHB1ENR_GPIODEN;
+
+	// Set-up PD12:13:14:15 as slow speed general purpose push-pull output
+	myPortD->MODER |= GPIO_MODER_MODE12_0 | GPIO_MODER_MODE13_0 | GPIO_MODER_MODE14_0 | GPIO_MODER_MODE15_0;
+	myPortD->MODER &= ~(GPIO_MODER_MODE12_1 | GPIO_MODER_MODE13_1 | GPIO_MODER_MODE14_1 | GPIO_MODER_MODE15_1);
+	myPortD->OTYPER &= ~(GPIO_OTYPER_OT12 | GPIO_OTYPER_OT13 | GPIO_OTYPER_OT14 | GPIO_OTYPER_OT15);
+	myPortD->OSPEEDR &= ~(GPIO_OSPEEDR_OSPEED12 | GPIO_OSPEEDR_OSPEED13 | GPIO_OSPEEDR_OSPEED14 | GPIO_OSPEEDR_OSPEED15);
+	myPortD->PUPDR &= ~(GPIO_PUPDR_PUPD12 | GPIO_PUPDR_PUPD13 | GPIO_PUPDR_PUPD14 | GPIO_PUPDR_PUPD15);
+	/* END - Set-up PD12, PD13, PD14, PD15 as low-speed gpio push-pull output */
+	
+#if defined(WATCHDOG_ENABLE)
+	// Indicate IWDG reset occured by setting amber LED@PD13
+	if(RCC_CSR_WDGRSTF == (myRCC->CSR & RCC_CSR_WDGRSTF)){
+		myPortD->BSRR |= GPIO_BSRR_BS13;
+	}
+#endif
+	
+	/* START - Configure Device Clock to Max Frequency @168Mhz using External Crystal @8Mhz */
+	// Enable clock to Power Interface
+	myRCC->APB1ENR |= RCC_APB1ENR_PWREN;
+	
+	// Scale 1.2V-PSU to Scale 1
+	myPowerInterface->CR |= PWR_CR_VOS;
 	
 	// Set flash wait states to 5
 	// Reference Manual: Section 3.5.1
@@ -65,6 +101,7 @@ int main(){
 	
 	// Update SystemCoreClock variable
 	SystemCoreClockUpdate();
+	/* END - Configure Device Clock to Max Frequency @168Mhz using External Crystal @8Mhz */
 
 #if defined(IO_COMPENSATION_CELL_ENABLE)
 	// Enable IO Compensation Cell to improve ringing on PWM waveforms???
@@ -79,42 +116,9 @@ int main(){
 	Manage_Timeout(timeout);
 #endif
 	
-	/* START - Set-up PD12, PD13, PD14, PD15 as low-speed gpio push-pull output */
-	// Enable clock for GPIOD
-	myRCC->AHB1ENR |= RCC_AHB1ENR_GPIODEN;
-	
-	// Set-up PD12:13:14:15 as slow speed general purpose push-pull output
-	myPortD->MODER |= GPIO_MODER_MODE12_0 | GPIO_MODER_MODE13_0 | GPIO_MODER_MODE14_0 | GPIO_MODER_MODE15_0;
-	myPortD->MODER &= ~(GPIO_MODER_MODE12_1 | GPIO_MODER_MODE13_1 | GPIO_MODER_MODE14_1 | GPIO_MODER_MODE15_1);
-	myPortD->OTYPER &= ~(GPIO_OTYPER_OT12 | GPIO_OTYPER_OT13 | GPIO_OTYPER_OT14 | GPIO_OTYPER_OT15);
-	myPortD->OSPEEDR &= ~(GPIO_OSPEEDR_OSPEED12 | GPIO_OSPEEDR_OSPEED13 | GPIO_OSPEEDR_OSPEED14 | GPIO_OSPEEDR_OSPEED15);
-	myPortD->PUPDR &= ~(GPIO_PUPDR_PUPD12 | GPIO_PUPDR_PUPD13 | GPIO_PUPDR_PUPD14 | GPIO_PUPDR_PUPD15);
-	/* END - Set-up PD12, PD13, PD14, PD15 as low-speed gpio push-pull output */
-
 #ifdef SYSTICK_ENABLE
 	// Set-up for a systick of every 1ms
 	SysTick_Config((SystemCoreClock/1000) - 1);
-#endif
-	
-	// Indicate IWDG reset occured by flashing amber LED@PD13
-	if(RCC_CSR_WDGRSTF == (myRCC->CSR & RCC_CSR_WDGRSTF)){
-		myPortD->BSRR |= GPIO_BSRR_BS13;
-		myRCC->CSR |= RCC_CSR_RMVF;
-		timeout = CONFIG_TIMEOUT_DURATION;
-		while(RCC_CSR_WDGRSTF == (myRCC->CSR & RCC_CSR_WDGRSTF)){
-			if(timeout != TIMED_OUT) --timeout;
-		}
-		Manage_Timeout(timeout);
-		msec_Delay(2000);
-		myPortD->BSRR |= GPIO_BSRR_BR13;
-	}
-	
-#if defined(SYSTICK_ENABLE) && defined(WATCHDOG_ENABLE)
-	// Set-up IWDG for reset of 32768ms
-	myIWatchDog->KR = IWDG_UNLOCK_KEY;
-	myIWatchDog->PR = IWDG_PRESCALER_256;
-	myIWatchDog->RLR = IWDG_RELOAD_VALUE;
-	myIWatchDog->KR = IWDG_START_KEY;
 #endif
 
 #if defined(RTE_Compiler_IO_STDOUT_ITM)
@@ -296,6 +300,23 @@ int main(){
 		//myPortB->ODR &= ~(GPIO_ODR_OD6| GPIO_ODR_OD7 | GPIO_ODR_OD8 | GPIO_ODR_OD9);
 		
 		msec_Delay(1000);
+	
+#if defined(WATCHDOG_ENABLE)
+		// Re-load watchdog counter
+		myIWatchDog->KR = IWDG_RELOAD_KEY;
+		
+		// Re-set watchdog flag & amber LED@PD13
+		if(RCC_CSR_WDGRSTF == (myRCC->CSR & RCC_CSR_WDGRSTF)){
+			myPortD->BSRR |= GPIO_BSRR_BR13;
+			myRCC->CSR |= RCC_CSR_RMVF;
+			timeout = CONFIG_TIMEOUT_DURATION;
+			while(RCC_CSR_WDGRSTF == (myRCC->CSR & RCC_CSR_WDGRSTF)){
+				if(timeout != TIMED_OUT) --timeout;
+			}
+			Manage_Timeout(timeout);
+		}
+#endif	
+		
 	}
 	
 	
@@ -306,11 +327,6 @@ int main(){
 
 
 void SysTick_Handler(void){
-	
-#if defined(SYSTICK_ENABLE) && defined(WATCHDOG_ENABLE)
-	// Re-load watchdog counter
-	myIWatchDog->KR = IWDG_RELOAD_KEY;
-#endif
 	
 	if(Delay > 0) --Delay;
 }
