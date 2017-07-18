@@ -1,6 +1,6 @@
 Rover :4 wheels
 
-Chasis :
+Chasis : DAGU Multi Chassis 4WD KIT (ATV version) @http://www.dagurobot.com/goods.php?id=58
 
 Motor driver :DRV8833
 Driver type :Full H-Bridge

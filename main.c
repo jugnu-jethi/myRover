@@ -104,8 +104,6 @@ int main(){
 	// Update SystemCoreClock variable
 	SystemCoreClockUpdate();
 	/* END - Configure Device Clock to Max Frequency @168Mhz using External Crystal @8Mhz */
-
-	printf("Revision ID: %#x\n", (myMCUDebug->IDCODE & DBGMCU_IDCODE_REV_ID));
 	
 #if defined(IO_COMPENSATION_CELL_ENABLE)
 	// Enable clock for SYSCFG
@@ -124,8 +122,15 @@ int main(){
 	SysTick_Config((SystemCoreClock/1000) - 1);
 #endif
 
+	//warm-up print; otherwise characters go missing in subsequent calls
+	printf("***********************************************************\n"); 
+	
+	printf("Revision ID: %#x\n", (myMCUDebug->IDCODE & DBGMCU_IDCODE_REV_ID));
+
+#if defined(RTE_Compiler_IO_STDOUT_ITM )
 	// Enable printf thru ITM Port 0
 	printf("Hello World!\n");
+#endif
 	
 	/* START - Set-up PB6, PB7, PB8, PB9 as low-speed gpio push-pull output w/ pulldown; muxed to AF2 */
 	//Enable clock for PORTB
