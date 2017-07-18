@@ -9,10 +9,11 @@
 
 
 
+#define REVISION_Z (0x1001U << DBGMCU_IDCODE_REV_ID_Pos)
 #define FALSE (0U)
 #define TRUE (!FALSE)
 #define TIMED_OUT (0U)
-#define CONFIG_TIMEOUT_DURATION (0XFFFFFFFF)
+#define CONFIG_TIMEOUT_DURATION (0XFFFFFFFFU)
 #define PLLM_DIV_4 ((4U) << RCC_PLLCFGR_PLLM_Pos)
 #define PLLM_DIV_8 ((8U) << RCC_PLLCFGR_PLLM_Pos)
 #define PLLN_MUL_336 ((336U) << RCC_PLLCFGR_PLLN_Pos)
@@ -47,6 +48,7 @@ volatile IWDG_TypeDef *myIWatchDog = IWDG;
 volatile EXTI_TypeDef *myEXTI = EXTI;
 volatile ADC_TypeDef *myADC1 = ADC1;
 volatile ADC_Common_TypeDef *ADCCommonControl = ADC;
+volatile GPIO_TypeDef *myPortD = GPIOD;
 
 
 

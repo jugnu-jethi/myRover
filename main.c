@@ -8,11 +8,11 @@ int main(){
 	RCC_TypeDef *myRCC = RCC;
 	GPIO_TypeDef *myPortA = GPIOA;
 	GPIO_TypeDef *myPortB = GPIOB;
-	GPIO_TypeDef *myPortD = GPIOD;
 	FLASH_TypeDef *myFlash = FLASH;
 	TIM_TypeDef *myTimer4 = TIM4;
 	SYSCFG_TypeDef *mySysCfg = SYSCFG;
 	PWR_TypeDef *myPowerInterface = PWR;
+	DBGMCU_TypeDef *myMCUDebug = DBGMCU;
 	
 	
 	
@@ -59,8 +59,10 @@ int main(){
 		if(timeout != TIMED_OUT) --timeout;
 	}
 	Manage_Timeout(timeout);
-	// Enable prefetch; Enable Instruction Cache; Enable Data Cache
-	myFlash->ACR |= FLASH_ACR_PRFTEN | FLASH_ACR_ICEN | FLASH_ACR_DCEN;
+	// Enable prefetch if Rev Z device; Enable Instruction Cache; Enable Data Cache
+	myFlash->ACR |= (REVISION_Z == (myMCUDebug->IDCODE & DBGMCU_IDCODE_REV_ID) ? FLASH_ACR_PRFTEN : 0U) | 
+									FLASH_ACR_ICEN | 
+									FLASH_ACR_DCEN;
 	
 	// Enable HSE oscillator source i.e. 8Mhz crystal
 	myRCC->CR &= ~(RCC_CR_HSEBYP);
@@ -103,8 +105,9 @@ int main(){
 	SystemCoreClockUpdate();
 	/* END - Configure Device Clock to Max Frequency @168Mhz using External Crystal @8Mhz */
 
+	printf("Revision ID: %#x\n", (myMCUDebug->IDCODE & DBGMCU_IDCODE_REV_ID));
+	
 #if defined(IO_COMPENSATION_CELL_ENABLE)
-	// Enable IO Compensation Cell to improve ringing on PWM waveforms???
 	// Enable clock for SYSCFG
 	myRCC->APB2ENR |= RCC_APB2ENR_SYSCFGEN;
 	
@@ -121,10 +124,8 @@ int main(){
 	SysTick_Config((SystemCoreClock/1000) - 1);
 #endif
 
-#if defined(RTE_Compiler_IO_STDOUT_ITM)
 	// Enable printf thru ITM Port 0
 	printf("Hello World!\n");
-#endif
 	
 	/* START - Set-up PB6, PB7, PB8, PB9 as low-speed gpio push-pull output w/ pulldown; muxed to AF2 */
 	//Enable clock for PORTB
@@ -269,7 +270,6 @@ int main(){
 		// Set Red LED@PD14 if flag bit is set
 		if(0x0001 == (myTaskFlags & 0x0001)){
 			
-			myTaskFlags &= ~(0x0001);
 			myPortD->BSRR |= GPIO_BSRR_BS14;
 		}
 		
@@ -291,7 +291,11 @@ int main(){
 		myPortD->BSRR |= GPIO_BSRR_BR12;
 		
 		// Reset Red LED@PD14(Atomically)
-		myPortD->BSRR |= GPIO_BSRR_BR14;
+		if(0x0001 == (myTaskFlags & 0x0001)){
+			
+			myTaskFlags &= ~(0x0001);
+			myPortD->BSRR |= GPIO_BSRR_BR14;
+		}
 		
 		// Enable CH2@PB7
 		myTimer4->CCER |= (TIM_CCER_CC2E);
@@ -361,8 +365,9 @@ void msec_Delay(uint32_t nTime){
 
 void Manage_Timeout(uint32_t nTimeout){
 	
-#if defined(RTE_Compiler_IO_STDOUT_ITM)
-	printf("Timeout error while waiting for peripheral to get ready!\n");
-#endif
-	while(nTimeout == TIMED_OUT);
+	if(nTimeout == TIMED_OUT){
+		
+		myPortD->BSRR |= GPIO_BSRR_BS15;
+		while(TRUE);
+	}
 }

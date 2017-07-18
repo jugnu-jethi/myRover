@@ -194,6 +194,10 @@
       <pMultCmds></pMultCmds>
       <SystemViewers>
         <Entry>
+          <Name>System Viewer\DBG</Name>
+          <WinId>35900</WinId>
+        </Entry>
+        <Entry>
           <Name>System Viewer\EXTI</Name>
           <WinId>35902</WinId>
         </Entry>
