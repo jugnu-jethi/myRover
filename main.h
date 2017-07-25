@@ -1,11 +1,16 @@
 #include <stdio.h>
 #include "stm32f4xx.h"
 #include "RTE_Components.h"
+#include "FreeRTOS.h"                   // ARM.FreeRTOS::RTOS:Core
+#include "task.h"                       // ARM.FreeRTOS::RTOS:Core
 
 
 
-#define SYSTICK_ENABLE
-#define WATCHDOG_ENABLE
+#define WATCHDOG_ENABLE 
+#if defined(WATCHDOG_ENABLE)
+	#define WATCHDOG_TEST_DISABLE
+#endif
+	
 //#define IO_COMPENSATION_CELL_ENABLE
 
 
@@ -43,6 +48,7 @@
 
 
 
+volatile uint32_t timeout = 0;
 volatile uint32_t Delay = 0;
 volatile uint32_t myTaskFlags = 0;
 volatile IWDG_TypeDef *myIWatchDog = IWDG;
@@ -50,11 +56,25 @@ volatile EXTI_TypeDef *myEXTI = EXTI;
 volatile ADC_TypeDef *myADC1 = ADC1;
 volatile ADC_Common_TypeDef *ADCCommonControl = ADC;
 volatile GPIO_TypeDef *myPortD = GPIOD;
+volatile RCC_TypeDef *myRCC = RCC;
+volatile TIM_TypeDef *myTimer4 = TIM4;
 
 
 
+// Crude loop based counter delay
 void msec_Delay(uint32_t);
+
 // Couldn't use "inline" keyword due to linker's undefined symbol error
 // REF: http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.faqs/ka15831.html
 // REF: https://community.arm.com/tools/f/discussions/4891/inline-function-attribute-causes-undefined-symbol-linking-error
 void Manage_Timeout(uint32_t) __attribute__((always_inline));
+
+// Blinks Green-LED@PD12 at one second interval
+void LEDHeartBeat(void *pvLED_HeartBeat);
+
+// Re-loads IWDG counter at
+#if defined(WATCHDOG_ENABLE)
+void IWDGCounterReload(void *pvIWDG_Counter_Reset);
+#endif
+
+void TestPWM(void *pvTest_PWM);

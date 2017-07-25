@@ -22,18 +22,35 @@ Dialog DLL:      TCM.DLL V1.27.0.0
  
 <h2>Project:</h2>
 C:\Users\jugnu\Documents\MDKv5-ARM\myRover\myRover.uvprojx
-Project File Date:  07/18/2017
+Project File Date:  07/25/2017
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 4 (build 422)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
-Build target 'Target 1'
+Rebuild target 'Target 1'
+assembling startup_stm32f407xx.s...
+compiling list.c...
+compiling retarget_io.c...
+compiling event_groups.c...
+compiling heap_4.c...
+compiling freertos_evr.c...
+compiling queue.c...
+compiling tasks.c...
+compiling timers.c...
+compiling port.c...
+compiling system_stm32f4xx.c...
 compiling main.c...
-main.c(333): warning:  #111-D: statement is unreachable
+main.c(288): warning:  #111-D: statement is unreachable
   	return 0;
-main.c: 1 warning, 0 errors
+main.c(336): warning:  #111-D: statement is unreachable
+  	vTaskDelete( NULL );
+main.c(371): warning:  #111-D: statement is unreachable
+  	vTaskDelete( NULL );
+main.c(394): warning:  #111-D: statement is unreachable
+  	vTaskDelete( NULL );
+main.c: 4 warnings, 0 errors
 linking...
-Program Size: Code=6210 RO-data=530 RW-data=44 ZI-data=1884  
-".\Objects\myRover.axf" - 0 Error(s), 1 Warning(s).
+Program Size: Code=14462 RO-data=530 RW-data=172 ZI-data=6220  
+".\Objects\myRover.axf" - 0 Error(s), 4 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -42,6 +59,16 @@ Package Vendor: ARM
                 ARM::CMSIS:CORE:5.0.1
                 CMSIS (Cortex Microcontroller Software Interface Standard)
    * Component: CORE Version: 5.0.1
+
+Package Vendor: ARM
+                http://www.keil.com/pack/ARM.CMSIS-FreeRTOS.9.0.0.pack
+                ARM.FreeRTOS::RTOS:Core:9.0.0
+                Bundle of FreeRTOS for Cortex-M and Cortex-A
+   * Component: Core Version: 9.0.0
+   * Component: Timers Version: 9.0.0
+   * Component: Heap Variant: Heap_4 Version: 9.0.0
+   * Component: Event Groups Version: 9.0.0
+   * Component: Config Variant: FreeRTOS Version: 9.0.0
 
 Package Vendor: Keil
                 http://www.keil.com/pack/Keil.ARM_Compiler.1.3.1.pack
@@ -56,7 +83,11 @@ Package Vendor: Keil
    * Component: Startup Version: 2.6.0
 
 <h2>Collection of Component include folders:</h2>
+  .\RTE\RTOS
   .\RTE\_Target_1
+  C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\CMSIS\RTOS2\FreeRTOS\Include
+  C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include
+  C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\portable\RVDS\ARM_CM4F
   C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include
   C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include
 
@@ -64,12 +95,38 @@ Package Vendor: Keil
 
    * Component: ARM::CMSIS:CORE:5.0.1
 
+   * Component: ARM.FreeRTOS::RTOS:Core:9.0.0
+      Source file:   CMSIS\RTOS2\FreeRTOS\Source\freertos_evr.c
+      Include file:  CMSIS\RTOS2\FreeRTOS\Include\freertos_evr.h
+      Source file:   Source\tasks.c
+      Include file:  Source\include\queue.h
+      Source file:   Source\queue.c
+      Include file:  Source\include\FreeRTOS.h
+      Include file:  Source\include\task.h
+      Include file:  Source\include\semphr.h
+      Source file:   Source\list.c
+      Source file:   Source\portable\RVDS\ARM_CM4F\port.c
+
+   * Component: ARM.FreeRTOS::RTOS:Timers:9.0.0
+      Source file:   Source\timers.c
+      Include file:  Source\include\timers.h
+
+   * Component: ARM.FreeRTOS::RTOS:Heap:Heap_4:9.0.0
+      Source file:   Source\portable\MemMang\heap_4.c
+
+   * Component: ARM.FreeRTOS::RTOS:Event Groups:9.0.0
+      Source file:   Source\event_groups.c
+      Include file:  Source\include\event_groups.h
+
+   * Component: ARM.FreeRTOS::RTOS:Config:FreeRTOS:9.0.0
+      Include file:  Config\ARMCM\FreeRTOSConfig.h
+
    * Component: Keil.ARM Compiler::Compiler:I/O:STDOUT:ITM:1.2.0
       Source file:   Source\retarget_io.c
 
    * Component: Keil::Device:Startup:2.6.0
-      Source file:   Drivers\CMSIS\Device\ST\STM32F4xx\Source\Templates\arm\startup_stm32f407xx.s
       Source file:   MDK\Device\Source\ARM\STM32F40xxx_41xxx_OPT.s
+      Source file:   Drivers\CMSIS\Device\ST\STM32F4xx\Source\Templates\arm\startup_stm32f407xx.s
       Source file:   MDK\Device\Source\ARM\STM32F4xx_OTP.s
       Include file:  Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h
       Source file:   Drivers\CMSIS\Device\ST\STM32F4xx\Source\Templates\system_stm32f4xx.c

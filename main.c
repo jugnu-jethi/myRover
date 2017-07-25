@@ -4,12 +4,9 @@
 
 int main(){
 	
-	uint32_t timeout = 0;
-	RCC_TypeDef *myRCC = RCC;
 	GPIO_TypeDef *myPortA = GPIOA;
 	GPIO_TypeDef *myPortB = GPIOB;
 	FLASH_TypeDef *myFlash = FLASH;
-	TIM_TypeDef *myTimer4 = TIM4;
 	SYSCFG_TypeDef *mySysCfg = SYSCFG;
 	PWR_TypeDef *myPowerInterface = PWR;
 	DBGMCU_TypeDef *myMCUDebug = DBGMCU;
@@ -117,10 +114,6 @@ int main(){
 	Manage_Timeout(timeout);
 #endif
 	
-#ifdef SYSTICK_ENABLE
-	// Set-up for a systick of every 1ms
-	SysTick_Config((SystemCoreClock/1000) - 1);
-#endif
 
 	//warm-up print; otherwise characters go missing in subsequent calls
 	printf("***********************************************************\n"); 
@@ -263,81 +256,36 @@ int main(){
 	/* END - Configure ADC1 to read from PA1 */
 	
 	
-	while(TRUE){
-		
-		// Decrement duty cycle in 10% decrements
-		if( 0 >= myTimer4->CCR2) myTimer4->CCR2 = TIMER4_PWM_PERIOD;
-		else myTimer4->CCR2 -= 420;
-		
-		// Atomically set PD12
-		myPortD->BSRR |= GPIO_BSRR_BS12;
-		
-		// Set Red LED@PD14 if flag bit is set
-		if(0x0001 == (myTaskFlags & 0x0001)){
-			
-			myPortD->BSRR |= GPIO_BSRR_BS14;
-		}
-		
-		// Disable CH2@PB7
-		myTimer4->CCER &= ~(TIM_CCER_CC2E);
-		
-		// Set PB6:7:8:9
-		//myPortB->ODR |= GPIO_ODR_OD6| GPIO_ODR_OD7 | GPIO_ODR_OD8 | GPIO_ODR_OD9;
-		
-		// Start single-conversion on ADC1_IN1@PA1
-		myADC1->CR2 |= ADC_CR2_SWSTART;
-		
-		msec_Delay(1000);
-		
-		// Print ADC1_IN1@PA1 results
-		if(ADC_SR_EOC == (myADC1->SR & ADC_SR_EOC)) printf("ADC1_IN1@PA1: %d\n", ADC1->DR);
-		
-		// Atomically reset PD12
-		myPortD->BSRR |= GPIO_BSRR_BR12;
-		
-		// Reset Red LED@PD14(Atomically)
-		if(0x0001 == (myTaskFlags & 0x0001)){
-			
-			myTaskFlags &= ~(0x0001);
-			myPortD->BSRR |= GPIO_BSRR_BR14;
-		}
-		
-		// Enable CH2@PB7
-		myTimer4->CCER |= (TIM_CCER_CC2E);
-		
-		// Reset PB6:7:8:9
-		//myPortB->ODR &= ~(GPIO_ODR_OD6| GPIO_ODR_OD7 | GPIO_ODR_OD8 | GPIO_ODR_OD9);
-		
-		msec_Delay(1000);
 	
-#if defined(WATCHDOG_ENABLE)
-		// Re-load watchdog counter
-		myIWatchDog->KR = IWDG_RELOAD_KEY;
+	/* START - Create FreeRTOS Tasks */
+	if(pdFAIL == xTaskCreate(LEDHeartBeat, "HeartBeat", 50, NULL, 1, NULL)){
 		
-		// Re-set watchdog flag & amber LED@PD13
-		if(RCC_CSR_WDGRSTF == (myRCC->CSR & RCC_CSR_WDGRSTF)){
-			myPortD->BSRR |= GPIO_BSRR_BR13;
-			myRCC->CSR |= RCC_CSR_RMVF;
-			timeout = CONFIG_TIMEOUT_DURATION;
-			while(RCC_CSR_WDGRSTF == (myRCC->CSR & RCC_CSR_WDGRSTF)){
-				if(timeout != TIMED_OUT) --timeout;
-			}
-			Manage_Timeout(timeout);
-		}
-#endif	
-		
+		printf("LED Heart Beat Task Failed!\n");
 	}
 	
+#if defined(WATCHDOG_ENABLE)
+	if(pdFAIL == xTaskCreate(IWDGCounterReload, "IWDGReset", 50, NULL, 1, NULL)){
+		
+		printf("IWDG Counter Reload Task Failed!\n");
+	}
+#endif
+	if(pdFAIL == xTaskCreate(TestPWM, "PWMTest", 50, NULL, 2, NULL)){
+		
+		printf("PWM Test Task Failed!\n");
+	}
+	/* END - Create FreeRTOS Tasks */
 	
+	
+	/* Start the scheduler so the tasks start executing. */
+	vTaskStartScheduler();
+	
+	/* If all is well then main() will never reach here as the scheduler will
+	now be running the tasks. If main() does reach here then it is likely that
+	there was insufficient heap memory available for the idle task to be created.
+	Chapter 2 provides more information on heap memory management. */
+	while(TRUE){};
 	
 	return 0;
-}
-
-
-
-void SysTick_Handler(void){
-	
-	if(Delay > 0) --Delay;
 }
 
 
@@ -352,19 +300,11 @@ void EXTI0_IRQHandler(void){
 
 
 
-#if defined(SYSTICK_ENABLE)
-void msec_Delay(uint32_t nTime){
-	
-	Delay = nTime;
-	while(Delay != 0);
-}
-#else
 void msec_Delay(uint32_t nTime){
 	
 	Delay = nTime * (SystemCoreClock/(FREQ_AN_MSEC * MSEC_CALIBRATION_FACTOR));
 	while(Delay != 0) --Delay;
 }
-#endif
 
 
 
@@ -375,4 +315,81 @@ void Manage_Timeout(uint32_t nTimeout){
 		myPortD->BSRR |= GPIO_BSRR_BS15;
 		while(TRUE);
 	}
+}
+
+
+
+void LEDHeartBeat(void *pvLED_HeartBeat){
+	
+	const TickType_t xDelay_1000ms = pdMS_TO_TICKS(1000);
+	
+	while(TRUE){
+		
+		// Atomically set Green-LED@PD12
+		myPortD->BSRR |= GPIO_BSRR_BS12;
+		vTaskDelay(xDelay_1000ms);
+		// Atomically re-set Green-LED@PD12
+		myPortD->BSRR |= GPIO_BSRR_BR12;
+		vTaskDelay(xDelay_1000ms);
+	}
+	
+	vTaskDelete( NULL );
+}
+
+
+
+#if defined(WATCHDOG_ENABLE)
+void IWDGCounterReload(void *pvIWDG_Counter_Reload){
+	
+	const TickType_t xDelay_8000ms = pdMS_TO_TICKS(8000);
+	
+	while(TRUE){
+		
+#if defined(WATCHDOG_ENABLE) && defined(WATCHDOG_TEST_DISABLE)
+		// Re-load watchdog counter
+		myIWatchDog->KR = IWDG_RELOAD_KEY;
+#endif
+		
+		// Re-set watchdog flag & Amber-LED@PD13
+		if(RCC_CSR_WDGRSTF == (myRCC->CSR & RCC_CSR_WDGRSTF)){
+			
+			vTaskDelay(xDelay_8000ms);
+			myPortD->BSRR |= GPIO_BSRR_BR13;
+			myRCC->CSR |= RCC_CSR_RMVF;
+			
+			timeout = CONFIG_TIMEOUT_DURATION;
+			while(RCC_CSR_WDGRSTF == (myRCC->CSR & RCC_CSR_WDGRSTF)){
+				
+				if(timeout != TIMED_OUT) --timeout;
+			}
+			Manage_Timeout(timeout);
+		}
+		
+		vTaskDelay(xDelay_8000ms);
+	}
+	
+	vTaskDelete( NULL );
+}
+#endif
+
+
+
+void TestPWM(void *pvTest_PWM){
+	
+	const TickType_t xDelay_1000ms = pdMS_TO_TICKS(1000);
+	
+	while(TRUE){
+		
+		// Disable CH2@PB7
+		myTimer4->CCER &= ~(TIM_CCER_CC2E);
+		// Decrement duty cycle in 10% decrements@PB7
+		if( 0 >= myTimer4->CCR2) myTimer4->CCR2 = TIMER4_PWM_PERIOD;
+		else myTimer4->CCR2 -= 420;
+		vTaskDelay(xDelay_1000ms);
+		// Enable CH2@PB7
+		myTimer4->CCER |= (TIM_CCER_CC2E);
+		vTaskDelay(xDelay_1000ms);
+	}
+	
+	vTaskDelete( NULL );
 }
