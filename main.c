@@ -269,9 +269,19 @@ int main(){
 		printf("IWDG Counter Reload Task Failed!\n");
 	}
 #endif
-	if(pdFAIL == xTaskCreate(TestPWM, "PWMTest", 50, NULL, 2, NULL)){
+//	if(pdFAIL == xTaskCreate(TestPWM, "PWMTest", 50, NULL, 1, NULL)){
+//		
+//		printf("PWM Test Task Failed!\n");
+//	}
+	
+	if(pdFAIL == xTaskCreate(SamplePOT, "SamplePOT", 50, NULL, 2, NULL)){
 		
-		printf("PWM Test Task Failed!\n");
+		printf("Sample POT Task Failed!\n");
+	}
+	
+	if(pdFAIL == xTaskCreate(AdjustMotorSpeed, "ADJ-Motor", 50, NULL, 1, NULL)){
+		
+		printf("Adjust Motor Speed Task Failed!\n");
 	}
 	/* END - Create FreeRTOS Tasks */
 	
@@ -389,6 +399,51 @@ void TestPWM(void *pvTest_PWM){
 		// Enable CH2@PB7
 		myTimer4->CCER |= (TIM_CCER_CC2E);
 		vTaskDelay(xDelay_1000ms);
+	}
+	
+	vTaskDelete( NULL );
+}
+
+
+
+void SamplePOT(void *pvSample_POT){
+	
+	TickType_t xLastWakeTime;
+	const TickType_t xSamplePeriod = pdMS_TO_TICKS( 100 );
+	
+	xLastWakeTime = xTaskGetTickCount();
+	while(TRUE){
+		
+		vTaskDelayUntil( &xLastWakeTime, xSamplePeriod );
+		
+		// Start single-conversion on ADC1_IN1@PA1
+		myADC1->CR2 |= ADC_CR2_SWSTART;
+		
+		// Wait for ADC1_IN1@PA1 results
+		while(ADC_SR_EOC != (myADC1->SR & ADC_SR_EOC));
+		if(ADC_SR_EOC == (myADC1->SR & ADC_SR_EOC)){
+			
+			// Calculate moving average to soften kinks
+			PotsOhms = (PotsOhms + ADC1->DR)/2;
+			
+			//printf("ADC1_IN1@PA1: %d\n", PotsOhms);
+		}
+	}
+	
+	vTaskDelete( NULL );
+}
+
+
+
+void AdjustMotorSpeed( void * pvAdjust_Motor_Speed){
+	
+	const TickType_t xDelay_Adjust = pdMS_TO_TICKS(250);
+	
+	while(TRUE){
+		
+		vTaskDelay(xDelay_Adjust);
+		myTimer4->CCR2 = PotsOhms;
+		//printf("CH2@Duty-Cycle: %d\n", PotsOhms);
 	}
 	
 	vTaskDelete( NULL );

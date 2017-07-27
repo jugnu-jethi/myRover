@@ -16,7 +16,7 @@ Systick @1msec
 Watchdog @32768msec
 
 PWM timers @TIM3, @TIM4
-PWM freq @10Khz
+PWM freq @20.512Khz - used to scale 1:1 to 12-bit ADC
 TIM3 channels @PB0, @PB1, @PB2, @PB3 (CH3:4:1:2)
 TIM4 channels @PB6, @PB7, @PB8, @PB9 (CH1:2:3:4)
 PB0, 1, 2, 3 @Low speed GPIO output w/ PD (PD =drive outputs @Z)

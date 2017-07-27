@@ -28,8 +28,8 @@ Project File Date:  07/25/2017
 *** Using Compiler 'V5.06 update 4 (build 422)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Rebuild target 'Target 1'
 assembling startup_stm32f407xx.s...
-compiling list.c...
 compiling retarget_io.c...
+compiling list.c...
 compiling event_groups.c...
 compiling heap_4.c...
 compiling freertos_evr.c...
@@ -39,18 +39,22 @@ compiling timers.c...
 compiling port.c...
 compiling system_stm32f4xx.c...
 compiling main.c...
-main.c(288): warning:  #111-D: statement is unreachable
+main.c(298): warning:  #111-D: statement is unreachable
   	return 0;
-main.c(336): warning:  #111-D: statement is unreachable
+main.c(346): warning:  #111-D: statement is unreachable
   	vTaskDelete( NULL );
-main.c(371): warning:  #111-D: statement is unreachable
+main.c(381): warning:  #111-D: statement is unreachable
   	vTaskDelete( NULL );
-main.c(394): warning:  #111-D: statement is unreachable
+main.c(404): warning:  #111-D: statement is unreachable
   	vTaskDelete( NULL );
-main.c: 4 warnings, 0 errors
+main.c(433): warning:  #111-D: statement is unreachable
+  	vTaskDelete( NULL );
+main.c(449): warning:  #111-D: statement is unreachable
+  	vTaskDelete( NULL );
+main.c: 6 warnings, 0 errors
 linking...
-Program Size: Code=14462 RO-data=530 RW-data=172 ZI-data=6220  
-".\Objects\myRover.axf" - 0 Error(s), 4 Warning(s).
+Program Size: Code=14798 RO-data=530 RW-data=176 ZI-data=6224  
+".\Objects\myRover.axf" - 0 Error(s), 6 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -62,12 +66,12 @@ Package Vendor: ARM
 
 Package Vendor: ARM
                 http://www.keil.com/pack/ARM.CMSIS-FreeRTOS.9.0.0.pack
-                ARM.FreeRTOS::RTOS:Core:9.0.0
+                ARM.FreeRTOS::RTOS:Heap:Heap_4:9.0.0
                 Bundle of FreeRTOS for Cortex-M and Cortex-A
-   * Component: Core Version: 9.0.0
-   * Component: Timers Version: 9.0.0
    * Component: Heap Variant: Heap_4 Version: 9.0.0
+   * Component: Core Version: 9.0.0
    * Component: Event Groups Version: 9.0.0
+   * Component: Timers Version: 9.0.0
    * Component: Config Variant: FreeRTOS Version: 9.0.0
 
 Package Vendor: Keil
@@ -95,28 +99,28 @@ Package Vendor: Keil
 
    * Component: ARM::CMSIS:CORE:5.0.1
 
-   * Component: ARM.FreeRTOS::RTOS:Core:9.0.0
-      Source file:   CMSIS\RTOS2\FreeRTOS\Source\freertos_evr.c
-      Include file:  CMSIS\RTOS2\FreeRTOS\Include\freertos_evr.h
-      Source file:   Source\tasks.c
-      Include file:  Source\include\queue.h
-      Source file:   Source\queue.c
-      Include file:  Source\include\FreeRTOS.h
-      Include file:  Source\include\task.h
-      Include file:  Source\include\semphr.h
-      Source file:   Source\list.c
-      Source file:   Source\portable\RVDS\ARM_CM4F\port.c
-
-   * Component: ARM.FreeRTOS::RTOS:Timers:9.0.0
-      Source file:   Source\timers.c
-      Include file:  Source\include\timers.h
-
    * Component: ARM.FreeRTOS::RTOS:Heap:Heap_4:9.0.0
       Source file:   Source\portable\MemMang\heap_4.c
+
+   * Component: ARM.FreeRTOS::RTOS:Core:9.0.0
+      Source file:   Source\tasks.c
+      Include file:  Source\include\task.h
+      Source file:   Source\queue.c
+      Source file:   Source\portable\RVDS\ARM_CM4F\port.c
+      Include file:  Source\include\queue.h
+      Include file:  Source\include\semphr.h
+      Include file:  Source\include\FreeRTOS.h
+      Source file:   Source\list.c
+      Include file:  CMSIS\RTOS2\FreeRTOS\Include\freertos_evr.h
+      Source file:   CMSIS\RTOS2\FreeRTOS\Source\freertos_evr.c
 
    * Component: ARM.FreeRTOS::RTOS:Event Groups:9.0.0
       Source file:   Source\event_groups.c
       Include file:  Source\include\event_groups.h
+
+   * Component: ARM.FreeRTOS::RTOS:Timers:9.0.0
+      Include file:  Source\include\timers.h
+      Source file:   Source\timers.c
 
    * Component: ARM.FreeRTOS::RTOS:Config:FreeRTOS:9.0.0
       Include file:  Config\ARMCM\FreeRTOSConfig.h
@@ -125,12 +129,12 @@ Package Vendor: Keil
       Source file:   Source\retarget_io.c
 
    * Component: Keil::Device:Startup:2.6.0
-      Source file:   MDK\Device\Source\ARM\STM32F40xxx_41xxx_OPT.s
-      Source file:   Drivers\CMSIS\Device\ST\STM32F4xx\Source\Templates\arm\startup_stm32f407xx.s
       Source file:   MDK\Device\Source\ARM\STM32F4xx_OTP.s
+      Source file:   Drivers\CMSIS\Device\ST\STM32F4xx\Source\Templates\arm\startup_stm32f407xx.s
       Include file:  Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h
+      Source file:   MDK\Device\Source\ARM\STM32F40xxx_41xxx_OPT.s
       Source file:   Drivers\CMSIS\Device\ST\STM32F4xx\Source\Templates\system_stm32f4xx.c
-Build Time Elapsed:  00:00:02
+Build Time Elapsed:  00:00:04
 </pre>
 </body>
 </html>
