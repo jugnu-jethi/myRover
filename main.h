@@ -3,6 +3,7 @@
 #include "RTE_Components.h"
 #include "FreeRTOS.h"                   // ARM.FreeRTOS::RTOS:Core
 #include "task.h"                       // ARM.FreeRTOS::RTOS:Core
+#include "queue.h"                      // ARM.FreeRTOS::RTOS:Core
 
 
 
@@ -45,13 +46,14 @@
 #define TIMER4_PSC_VALUE TIMER4_PSC_RESET
 #define DRV8833_PWM_FREQUENCY (20512U)
 #define TIMER4_PWM_PERIOD (84000000U/((TIMER4_PSC_VALUE + 1U) * DRV8833_PWM_FREQUENCY))
+#define HALT_SYSTEM(X) do{__asm("NOP");} while(X)
+
 
 
 
 volatile uint32_t timeout = 0;
 volatile uint32_t Delay = 0;
 volatile uint32_t myTaskFlags = 0;
-volatile static uint32_t PotsOhms = 0;
 volatile IWDG_TypeDef *myIWatchDog = IWDG;
 volatile EXTI_TypeDef *myEXTI = EXTI;
 volatile ADC_TypeDef *myADC1 = ADC1;
@@ -84,4 +86,6 @@ void TestPWM(void *pvTest_PWM);
 void SamplePOT(void *pvSample_POT);
 
 // Adjust motor speed i.e. PWM duty cycle TM4@CH2@PB7
-void AdjustMotorSpeed( void * pvAdjust_Motor_Speed);
+void AdjustMotorSpeed(void * pvAdjust_Motor_Speed);
+
+void GaugeDistanceAndDrive(QueueHandle_t xPotsOhmsQueue);

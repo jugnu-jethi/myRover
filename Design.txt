@@ -11,7 +11,6 @@ Motor type :BDC
 
 Controller :SM32F4-DISCOVERY Boards
 System clock @168Mhz
-Systick @1msec
 
 Watchdog @32768msec
 

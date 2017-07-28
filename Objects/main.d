@@ -21,3 +21,4 @@
 .\objects\main.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\mpu_wrappers.h
 .\objects\main.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\task.h
 .\objects\main.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\list.h
+.\objects\main.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\queue.h

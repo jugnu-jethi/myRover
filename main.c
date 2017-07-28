@@ -184,11 +184,11 @@ int main(){
 	// Note: Timer4 RCC input clock is doubled internally to 84Mhz(42Mhz x 2)
 	myTimer4->ARR = TIMER4_PWM_PERIOD;
 	
-	// CH1:2:3:4 @50% duty cycle
-	myTimer4->CCR1 = 2100;
-	myTimer4->CCR2 = 2100;
-	myTimer4->CCR3 = 2100;
-	myTimer4->CCR4 = 2100;
+	// CH1:2:3:4 @0% duty cycle
+	myTimer4->CCR1 = 0;
+	myTimer4->CCR2 = 0;
+	myTimer4->CCR3 = 0;
+	myTimer4->CCR4 = 0;
 	
 	// Enable timer4
 	myTimer4->CR1 |= TIM_CR1_CEN;
@@ -257,32 +257,41 @@ int main(){
 	
 	
 	
+	/***********************************************************************************************/
+	/************************************** START - FreeRTOS ***************************************/
+	/***********************************************************************************************/
+	QueueHandle_t xPotSampleQueue = NULL;
+	
+	
 	/* START - Create FreeRTOS Tasks */
+	// Watchdog reload task has highest priority
+#if defined(WATCHDOG_ENABLE)
+	if(pdFAIL == xTaskCreate(IWDGCounterReload, "IWDGReset", 50, NULL, 4, NULL)){
+		
+		printf("IWDG Counter Reload Task Failed!\n");
+	}
+#endif
+	
+	// Blink Green-LED@PD12 every second(0.5Hz)
 	if(pdFAIL == xTaskCreate(LEDHeartBeat, "HeartBeat", 50, NULL, 1, NULL)){
 		
 		printf("LED Heart Beat Task Failed!\n");
 	}
 	
-#if defined(WATCHDOG_ENABLE)
-	if(pdFAIL == xTaskCreate(IWDGCounterReload, "IWDGReset", 50, NULL, 1, NULL)){
+	xPotSampleQueue = xQueueCreate(3, sizeof(uint16_t));
+	if(NULL == xPotSampleQueue){
 		
-		printf("IWDG Counter Reload Task Failed!\n");
+		printf("Couldn't create xPotsOhmsQueue!\n");
+		HALT_SYSTEM(TRUE);
 	}
-#endif
+	GaugeDistanceAndDrive(xPotSampleQueue);
+	
 //	if(pdFAIL == xTaskCreate(TestPWM, "PWMTest", 50, NULL, 1, NULL)){
 //		
 //		printf("PWM Test Task Failed!\n");
 //	}
 	
-	if(pdFAIL == xTaskCreate(SamplePOT, "SamplePOT", 50, NULL, 2, NULL)){
-		
-		printf("Sample POT Task Failed!\n");
-	}
 	
-	if(pdFAIL == xTaskCreate(AdjustMotorSpeed, "ADJ-Motor", 50, NULL, 1, NULL)){
-		
-		printf("Adjust Motor Speed Task Failed!\n");
-	}
 	/* END - Create FreeRTOS Tasks */
 	
 	
@@ -292,7 +301,8 @@ int main(){
 	/* If all is well then main() will never reach here as the scheduler will
 	now be running the tasks. If main() does reach here then it is likely that
 	there was insufficient heap memory available for the idle task to be created.
-	Chapter 2 provides more information on heap memory management. */
+	Chapter 2 provides more information on heap memory management. */	
+	// NOTE - Should do a system reset instead? or wait for IWDG?
 	while(TRUE){};
 	
 	return 0;
@@ -300,16 +310,9 @@ int main(){
 
 
 
-void EXTI0_IRQHandler(void){
-	
-	if(EXTI_PR_PR0 == (myEXTI->PR & EXTI_PR_PR0)) myEXTI->PR |= EXTI_PR_PR0;
-	if(__NVIC_GetPendingIRQ(EXTI0_IRQn)) __NVIC_ClearPendingIRQ(EXTI0_IRQn);
-	
-	myTaskFlags |= 0x0001;
-}
-
-
-
+/*************************************************************************************************/
+/******************************* Function Definitions ********************************************/
+/*************************************************************************************************/
 void msec_Delay(uint32_t nTime){
 	
 	Delay = nTime * (SystemCoreClock/(FREQ_AN_MSEC * MSEC_CALIBRATION_FACTOR));
@@ -409,8 +412,9 @@ void TestPWM(void *pvTest_PWM){
 void SamplePOT(void *pvSample_POT){
 	
 	TickType_t xLastWakeTime;
-	const TickType_t xSamplePeriod = pdMS_TO_TICKS( 100 );
-	
+	const TickType_t xSamplePeriod = pdMS_TO_TICKS(100);
+	const TickType_t xWaitForSample = pdMS_TO_TICKS(25);
+		
 	xLastWakeTime = xTaskGetTickCount();
 	while(TRUE){
 		
@@ -423,10 +427,10 @@ void SamplePOT(void *pvSample_POT){
 		while(ADC_SR_EOC != (myADC1->SR & ADC_SR_EOC));
 		if(ADC_SR_EOC == (myADC1->SR & ADC_SR_EOC)){
 			
-			// Calculate moving average to soften kinks
-			PotsOhms = (PotsOhms + ADC1->DR)/2;
+			if(pdPASS != xQueueSend((QueueHandle_t)pvSample_POT, (const void *)&(myADC1->DR), xWaitForSample)){
 			
-			//printf("ADC1_IN1@PA1: %d\n", PotsOhms);
+				printf("POT Sample wasn't sent.\n");
+			}
 		}
 	}
 	
@@ -435,16 +439,53 @@ void SamplePOT(void *pvSample_POT){
 
 
 
-void AdjustMotorSpeed( void * pvAdjust_Motor_Speed){
+void AdjustMotorSpeed( void *pvAdjust_Motor_Speed){
 	
-	const TickType_t xDelay_Adjust = pdMS_TO_TICKS(250);
+	const TickType_t xDelay_Adjust = pdMS_TO_TICKS(100);
+	static uint32_t PotsOhms = 0;
+	uint16_t PotsOhmSample = 0;
 	
 	while(TRUE){
 		
 		vTaskDelay(xDelay_Adjust);
-		myTimer4->CCR2 = PotsOhms;
-		//printf("CH2@Duty-Cycle: %d\n", PotsOhms);
+		if(pdPASS == xQueueReceive((QueueHandle_t)pvAdjust_Motor_Speed, (uint16_t *)&PotsOhmSample, portMAX_DELAY)){
+		
+			// Calculate a moving average for better accuracy and stability
+			PotsOhms = (PotsOhms + PotsOhmSample)/2;
+			myTimer4->CCR2 = PotsOhms;
+		}
 	}
 	
 	vTaskDelete( NULL );
+}
+
+
+
+void GaugeDistanceAndDrive(QueueHandle_t xPotsOhmsQueue){
+	
+	if(pdFAIL == xTaskCreate(SamplePOT, "SamplePOT", 100, (void *)xPotsOhmsQueue, 2, NULL)){
+
+		printf("Sample POT Task Failed!\n");
+		HALT_SYSTEM(TRUE);
+	}
+	
+	if(pdFAIL == xTaskCreate(AdjustMotorSpeed, "ADJ-Motor", 100, (void *)xPotsOhmsQueue, 1, NULL)){
+		
+		printf("Adjust Motor Speed Task Failed!\n");
+		// TODO - Disable all PWM channels
+		HALT_SYSTEM(TRUE);
+	}
+}
+
+
+
+/*************************************************************************************************/
+/************************************ ISR Definitions ********************************************/
+/*************************************************************************************************/
+void EXTI0_IRQHandler(void){
+	
+	if(EXTI_PR_PR0 == (myEXTI->PR & EXTI_PR_PR0)) myEXTI->PR |= EXTI_PR_PR0;
+	if(__NVIC_GetPendingIRQ(EXTI0_IRQn)) __NVIC_ClearPendingIRQ(EXTI0_IRQn);
+	
+	myTaskFlags |= 0x0001;
 }
