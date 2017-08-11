@@ -13,6 +13,7 @@
 #endif
 	
 //#define IO_COMPENSATION_CELL_ENABLE
+//#define ENABLE_BLUE_BUTTON
 
 
 
@@ -41,12 +42,16 @@
 #define TIMER4_PSC_RESET TIMER4_CCMR2_RESET
 #define ADC1_CR1_RESET (0U)
 #define ADC1_CR2_RESET ADC1_CR1_RESET
+#define ADC1_JSQR_RESET ADC1_CR2_RESET
 #define FREQ_AN_MSEC (1000U)
 #define MSEC_CALIBRATION_FACTOR (20U)
 #define TIMER4_PSC_VALUE TIMER4_PSC_RESET
 #define DRV8833_PWM_FREQUENCY (20512U)
 #define TIMER4_PWM_PERIOD (84000000U/((TIMER4_PSC_VALUE + 1U) * DRV8833_PWM_FREQUENCY))
 #define HALT_SYSTEM(X) do{__asm("NOP");} while(X)
+#define TOTAL_IR_SENSORS (4U)
+#define TOTAL_ADC1_INJECTED_CHANNELS (4U)
+#define ADJACENT_REGISTER_OFFSET (sizeof(uint32_t))
 
 
 
@@ -75,17 +80,18 @@ void Manage_Timeout(uint32_t) __attribute__((always_inline));
 // Blinks Green-LED@PD12 at one second interval
 void LEDHeartBeat(void *pvLED_HeartBeat);
 
-// Re-loads IWDG counter at
+// Re-loads IWDG counter at 8 seconds interval
 #if defined(WATCHDOG_ENABLE)
 void IWDGCounterReload(void *pvIWDG_Counter_Reset);
 #endif
 
 void TestPWM(void *pvTest_PWM);
 
-// Sample POT connected to ADC_IN1@PA1
-void SamplePOT(void *pvSample_POT);
+// Sample IR Sensors connected to ADC_IN1@PA0:1:2:3
+void SampleIRSensors(void *pvSample_POT);
 
 // Adjust motor speed i.e. PWM duty cycle TM4@CH2@PB7
 void AdjustMotorSpeed(void * pvAdjust_Motor_Speed);
 
-void GaugeDistanceAndDrive(QueueHandle_t xPotsOhmsQueue);
+// Creates a queue & tasks to gauge distance prior to adjusting motor speed
+void GaugeDistanceAndDrive(QueueHandle_t pvSample_IR_Sensors);

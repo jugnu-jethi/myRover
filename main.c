@@ -147,7 +147,7 @@ int main(){
 	myPortB->AFR[1] |= GPIO_AFRH_AFSEL8_1 | GPIO_AFRH_AFSEL9_1;
 	/* END - Set-up PB6, PB7, PB8, PB9 as low-speed gpio push-pull output w/ pulldown; muxed to AF2 */
 	
-	/* START - Set-up TIMER4 for edge-aligned PWM@10KHz with outputs on CH1:2:3:4 */
+	/* START - Set-up TIMER4 for edge-aligned PWM@20KHz with outputs on CH1:2:3:4(PB6:PB7:PB8:PB9) */
 	// Enable clock for TIMER4
 	myRCC->APB1ENR |= RCC_APB1ENR_TIM4EN;
 	
@@ -180,7 +180,7 @@ int main(){
 	// No prescaler
 	myTimer4->PSC = TIMER4_PSC_VALUE;
 	
-	// PWM@10Khz w/ APB1@42Mhz
+	// PWM@20Khz w/ APB1@42Mhz
 	// Note: Timer4 RCC input clock is doubled internally to 84Mhz(42Mhz x 2)
 	myTimer4->ARR = TIMER4_PWM_PERIOD;
 	
@@ -192,8 +192,9 @@ int main(){
 	
 	// Enable timer4
 	myTimer4->CR1 |= TIM_CR1_CEN;
-	/* END - Set-up TIMER4 for edge-aligned PWM@10KHz with outputs on CH1:2:3:4 */
-	
+	/* END - Set-up TIMER4 for edge-aligned PWM@20KHz with outputs on CH1:2:3:4(PB6:PB7:PB8:PB9) */
+
+#if defined(ENABLE_BLUE_BUTTON)
 	/* START - Set-up push button on PA0; Attach to EXTI0 */
 	// Enable clock for GPIOA
 	myRCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN;
@@ -214,17 +215,18 @@ int main(){
 	
 	__NVIC_EnableIRQ(EXTI0_IRQn);
 	/* END - Set-up push button on PA0 */
+#endif
 	
-	/* START - Configure ADC1 to read from channel ADC1_IN1@PA1(single-conversion) */
+	/* START - Configure ADC1 to read injected-channels@ADC1_IN0:1:2:3@PA0:1:2:3(scan-mode) */
 	// Enable clock for GPIOA
 	/* Not needed as already enabled prior
 	//myRCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN; */
 	
-	// Set-up PA1 as slow speed general purpose push-pull analog input
-	myPortA->MODER |= GPIO_MODER_MODE1;
-	myPortA->OTYPER &= ~(GPIO_OTYPER_OT1);
-	myPortA->OSPEEDR &= ~(GPIO_OSPEEDR_OSPEED1);
-	myPortA->PUPDR &= ~(GPIO_PUPDR_PUPD1);
+	// Set-up PA0:1:2:3 as slow speed general purpose push-pull analog input
+	myPortA->MODER |= GPIO_MODER_MODE0 | GPIO_MODER_MODE1 | GPIO_MODER_MODE2 | GPIO_MODER_MODE3;
+	myPortA->OTYPER &= ~(GPIO_OTYPER_OT0 | GPIO_OTYPER_OT1 | GPIO_OTYPER_OT2 | GPIO_OTYPER_OT3);
+	myPortA->OSPEEDR &= ~(GPIO_OSPEEDR_OSPEED0 | GPIO_OSPEEDR_OSPEED1 | GPIO_OSPEEDR_OSPEED2 | GPIO_OSPEEDR_OSPEED3);
+	myPortA->PUPDR &= ~(GPIO_PUPDR_PUPD0 | GPIO_PUPDR_PUPD1 | GPIO_PUPDR_PUPD2 | GPIO_PUPDR_PUPD3);
 	
 	// Enable clock for ADC1 
 	myRCC->APB2ENR |= RCC_APB2ENR_ADC1EN;
@@ -233,23 +235,27 @@ int main(){
 	ADCCommonControl->CCR &= ADC_CCR_ADCPRE;
 	ADCCommonControl->CCR |= ADC_CCR_ADCPRE_0;
 	
-	// 12-bit resolution;
+	// 12-bit resolution;scan-conversion mode
 	myADC1->CR1 &= ~(ADC1_CR1_RESET);
 	myADC1->CR1 &= ~(ADC_CR1_RES);
+	myADC1->CR1 |= ADC_CR1_SCAN;
 	
-	// right align; EOC flag enabled; single-conversion mode
+	// right align;
 	myADC1->CR2 &= ~(ADC1_CR2_RESET);
-	myADC1->CR2 &= ~(ADC_CR2_ALIGN | ADC_CR2_EOCS);
+	myADC1->CR2 &= ~(ADC_CR2_ALIGN);
 	
-	// sampling time for channel ADC1_IN1 of 3 cycles
-	myADC1->SMPR2 &= ~(ADC_SMPR2_SMP1);
+	// sampling time for channel ADC1_IN0:1:2:3 of 3 cycles
+	myADC1->SMPR2 &= ~(ADC_SMPR2_SMP0 | ADC_SMPR2_SMP1 | ADC_SMPR2_SMP2 | ADC_SMPR2_SMP3);
 	
-	// First group sequence is channel 1 i.e. ADC1_IN1
-	myADC1->SQR3 &= ~(ADC_SQR3_SQ1);
-	myADC1->SQR3 |= ADC_SQR3_SQ1_0;
+	// Perform total 4 conversions
+	myADC1->JSQR &= ~(ADC1_JSQR_RESET);
+	myADC1->JSQR |= ADC_JSQR_JL;
 	
-	// Total number of conversion is ONE
-	myADC1->SQR1 &= ~(ADC_SQR1_L);
+	// Injeccted group sequence ADC1_IN0:1:2:3
+	myADC1->JSQR &= ~(ADC_JSQR_JSQ1);
+	myADC1->JSQR |= ADC_JSQR_JSQ2_0;
+	myADC1->JSQR |= ADC_JSQR_JSQ3_1;
+	myADC1->JSQR |= ADC_JSQR_JSQ4_1 | ADC_JSQR_JSQ4_0;
 	
 	// Switch ADC1 ON
 	myADC1->CR2 |= ADC_CR2_ADON;
@@ -260,7 +266,7 @@ int main(){
 	/***********************************************************************************************/
 	/************************************** START - FreeRTOS ***************************************/
 	/***********************************************************************************************/
-	QueueHandle_t xPotSampleQueue = NULL;
+	QueueHandle_t xIRSampleQueue = NULL;
 	
 	
 	/* START - Create FreeRTOS Tasks */
@@ -278,13 +284,13 @@ int main(){
 		printf("LED Heart Beat Task Failed!\n");
 	}
 	
-	xPotSampleQueue = xQueueCreate(3, sizeof(uint16_t));
-	if(NULL == xPotSampleQueue){
+	xIRSampleQueue = xQueueCreate(TOTAL_IR_SENSORS, sizeof(uint16_t));
+	if(NULL == xIRSampleQueue){
 		
-		printf("Couldn't create xPotsOhmsQueue!\n");
+		printf("Couldn't create xIRSampleQueue!\n");
 		HALT_SYSTEM(TRUE);
 	}
-	GaugeDistanceAndDrive(xPotSampleQueue);
+	GaugeDistanceAndDrive(xIRSampleQueue);
 	
 //	if(pdFAIL == xTaskCreate(TestPWM, "PWMTest", 50, NULL, 1, NULL)){
 //		
@@ -409,27 +415,30 @@ void TestPWM(void *pvTest_PWM){
 
 
 
-void SamplePOT(void *pvSample_POT){
+void SampleIRSensors(void *pvSample_IR_Sensors){
 	
+	uint32_t ictr = 0;
 	TickType_t xLastWakeTime;
 	const TickType_t xSamplePeriod = pdMS_TO_TICKS(100);
-	const TickType_t xWaitForSample = pdMS_TO_TICKS(25);
+	const TickType_t xSampleSendWait = pdMS_TO_TICKS(10);
 		
 	xLastWakeTime = xTaskGetTickCount();
 	while(TRUE){
 		
 		vTaskDelayUntil( &xLastWakeTime, xSamplePeriod );
 		
-		// Start single-conversion on ADC1_IN1@PA1
-		myADC1->CR2 |= ADC_CR2_SWSTART;
+		// Start scan-mode on all injected channels
+		myADC1->CR2 |= ADC_CR2_JSWSTART;
 		
-		// Wait for ADC1_IN1@PA1 results
-		while(ADC_SR_EOC != (myADC1->SR & ADC_SR_EOC));
-		if(ADC_SR_EOC == (myADC1->SR & ADC_SR_EOC)){
+		// Wait for injected-channels' scan results
+		while(ADC_SR_JEOC != (myADC1->SR & ADC_SR_JEOC));
+		if(ADC_SR_JEOC == (myADC1->SR & ADC_SR_JEOC)){
 			
-			if(pdPASS != xQueueSend((QueueHandle_t)pvSample_POT, (const void *)&(myADC1->DR), xWaitForSample)){
-			
-				printf("POT Sample wasn't sent.\n");
+			for(ictr = 0; ictr < TOTAL_ADC1_INJECTED_CHANNELS; ++ictr){
+				if(pdPASS != xQueueSend((QueueHandle_t)pvSample_IR_Sensors, (const void *)(&(myADC1->JDR1) + (ADJACENT_REGISTER_OFFSET * ictr)), xSampleSendWait)){
+				
+					printf("Sample %d wasn't sent.\n", ictr);
+				}
 			}
 		}
 	}
@@ -463,16 +472,17 @@ void AdjustMotorSpeed( void *pvAdjust_Motor_Speed){
 
 void GaugeDistanceAndDrive(QueueHandle_t xPotsOhmsQueue){
 	
-	if(pdFAIL == xTaskCreate(SamplePOT, "SamplePOT", 100, (void *)xPotsOhmsQueue, 2, NULL)){
+	if(pdFAIL == xTaskCreate(SampleIRSensors, "SampleIRs", 50, (void *)xPotsOhmsQueue, 2, NULL)){
 
-		printf("Sample POT Task Failed!\n");
+		printf("Sample IR Sensors Task Failed!\n");
 		HALT_SYSTEM(TRUE);
 	}
 	
-	if(pdFAIL == xTaskCreate(AdjustMotorSpeed, "ADJ-Motor", 100, (void *)xPotsOhmsQueue, 1, NULL)){
+	if(pdFAIL == xTaskCreate(AdjustMotorSpeed, "ADJ-Motor", 50, (void *)xPotsOhmsQueue, 1, NULL)){
 		
 		printf("Adjust Motor Speed Task Failed!\n");
-		// TODO - Disable all PWM channels
+		// Disable all PWM channels i.e. TIM4@CH1:2:3:4@PB6:PB7:PB8:PB9
+		myTimer4->CCER &= ~(TIM_CCER_CC1E | TIM_CCER_CC2E | TIM_CCER_CC3E | TIM_CCER_CC4E);
 		HALT_SYSTEM(TRUE);
 	}
 }
@@ -482,6 +492,7 @@ void GaugeDistanceAndDrive(QueueHandle_t xPotsOhmsQueue){
 /*************************************************************************************************/
 /************************************ ISR Definitions ********************************************/
 /*************************************************************************************************/
+#if defined(ENABLE_BLUE_BUTTON)
 void EXTI0_IRQHandler(void){
 	
 	if(EXTI_PR_PR0 == (myEXTI->PR & EXTI_PR_PR0)) myEXTI->PR |= EXTI_PR_PR0;
@@ -489,3 +500,4 @@ void EXTI0_IRQHandler(void){
 	
 	myTaskFlags |= 0x0001;
 }
+#endif

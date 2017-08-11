@@ -14,6 +14,11 @@ System clock @168Mhz
 
 Watchdog @32768msec
 
+ToF Sensors: Sharp IR
+Sensor type: Analog
+Analog inputs @PA0:1:2:3
+Analog injected channels @ADC_IN0:1:2:3
+
 PWM timers @TIM3, @TIM4
 PWM freq @20.512Khz - used to scale 1:1 to 12-bit ADC
 TIM3 channels @PB0, @PB1, @PB2, @PB3 (CH3:4:1:2)

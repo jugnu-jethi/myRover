@@ -3,8 +3,8 @@
 .\objects\freertos_evr.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 .\objects\freertos_evr.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\freertos_evr.o: .\RTE\_Target_1\RTE_Components.h
-.\objects\freertos_evr.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include\cmsis_compiler.h
-.\objects\freertos_evr.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include\cmsis_armcc.h
+.\objects\freertos_evr.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include\cmsis_compiler.h
+.\objects\freertos_evr.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include\cmsis_armcc.h
 .\objects\freertos_evr.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\FreeRTOS.h
 .\objects\freertos_evr.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
 .\objects\freertos_evr.o: .\RTE\RTOS\FreeRTOSConfig.h
