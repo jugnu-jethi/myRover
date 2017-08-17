@@ -22,11 +22,20 @@ Dialog DLL:      TCM.DLL V1.27.0.0
  
 <h2>Project:</h2>
 C:\Users\jugnu\Documents\MDKv5-ARM\myRover\myRover.uvprojx
-Project File Date:  08/11/2017
+Project File Date:  08/17/2017
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 4 (build 422)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
-Build target 'Target 1'
+Rebuild target 'Target 1'
+assembling startup_stm32f407xx.s...
+compiling retarget_io.c...
+compiling trcKernelPort.c...
+compiling system_stm32f4xx.c...
+compiling trcStreamingRecorder.c...
+compiling event_groups.c...
+compiling freertos_evr.c...
+compiling trcSnapshotRecorder.c...
+compiling list.c...
 compiling main.c...
 main.c(314): warning:  #111-D: statement is unreachable
   	return 0;
@@ -38,32 +47,37 @@ main.c(390): warning:  #111-D: statement is unreachable
   	vTaskDelete( NULL );
 main.c(413): warning:  #111-D: statement is unreachable
   	vTaskDelete( NULL );
-main.c(447): warning:  #111-D: statement is unreachable
+main.c(436): warning:  #111-D: statement is unreachable
   	vTaskDelete( NULL );
-main.c(469): warning:  #111-D: statement is unreachable
+main.c(478): warning:  #111-D: statement is unreachable
   	vTaskDelete( NULL );
 main.c: 7 warnings, 0 errors
+compiling port.c...
+compiling heap_4.c...
+compiling timers.c...
+compiling queue.c...
+compiling tasks.c...
 linking...
-Program Size: Code=14938 RO-data=530 RW-data=176 ZI-data=6224  
+Program Size: Code=25742 RO-data=2742 RW-data=280 ZI-data=12512  
 ".\Objects\myRover.axf" - 0 Error(s), 7 Warning(s).
 
 <h2>Software Packages used:</h2>
-
-Package Vendor: ARM
-                http://www.keil.com/pack/ARM.CMSIS-FreeRTOS.9.0.0.pack
-                ARM.FreeRTOS::RTOS:Event Groups:9.0.0
-                Bundle of FreeRTOS for Cortex-M and Cortex-A
-   * Component: Event Groups Version: 9.0.0
-   * Component: Core Version: 9.0.0
-   * Component: Config Variant: FreeRTOS Version: 9.0.0
-   * Component: Heap Variant: Heap_4 Version: 9.0.0
-   * Component: Timers Version: 9.0.0
 
 Package Vendor: ARM
                 http://www.keil.com/pack/ARM.CMSIS.5.1.0.pack
                 ARM::CMSIS:CORE:5.0.2
                 CMSIS (Cortex Microcontroller Software Interface Standard)
    * Component: CORE Version: 5.0.2
+
+Package Vendor: ARM
+                http://www.keil.com/pack/ARM.CMSIS-FreeRTOS.9.0.0.pack
+                ARM.FreeRTOS::RTOS:Event Groups:9.0.0
+                Bundle of FreeRTOS for Cortex-M and Cortex-A
+   * Component: Event Groups Version: 9.0.0
+   * Component: Timers Version: 9.0.0
+   * Component: Core Version: 9.0.0
+   * Component: Config Variant: FreeRTOS Version: 9.0.0
+   * Component: Heap Variant: Heap_4 Version: 9.0.0
 
 Package Vendor: Keil
                 http://www.keil.com/pack/Keil.ARM_Compiler.1.3.1.pack
@@ -88,21 +102,27 @@ Package Vendor: Keil
 
 <h2>Collection of Component Files used:</h2>
 
+   * Component: ARM::CMSIS:CORE:5.0.2
+
    * Component: ARM.FreeRTOS::RTOS:Event Groups:9.0.0
       Include file:  Source\include\event_groups.h
       Source file:   Source\event_groups.c
 
+   * Component: ARM.FreeRTOS::RTOS:Timers:9.0.0
+      Include file:  Source\include\timers.h
+      Source file:   Source\timers.c
+
    * Component: ARM.FreeRTOS::RTOS:Core:9.0.0
-      Include file:  CMSIS\RTOS2\FreeRTOS\Include\freertos_evr.h
-      Source file:   CMSIS\RTOS2\FreeRTOS\Source\freertos_evr.c
       Source file:   Source\portable\RVDS\ARM_CM4F\port.c
-      Source file:   Source\queue.c
-      Source file:   Source\list.c
       Include file:  Source\include\FreeRTOS.h
-      Include file:  Source\include\task.h
-      Include file:  Source\include\semphr.h
       Source file:   Source\tasks.c
+      Include file:  Source\include\semphr.h
+      Source file:   Source\list.c
       Include file:  Source\include\queue.h
+      Include file:  Source\include\task.h
+      Source file:   Source\queue.c
+      Source file:   CMSIS\RTOS2\FreeRTOS\Source\freertos_evr.c
+      Include file:  CMSIS\RTOS2\FreeRTOS\Include\freertos_evr.h
 
    * Component: ARM.FreeRTOS::RTOS:Config:FreeRTOS:9.0.0
       Include file:  Config\ARMCM\FreeRTOSConfig.h
@@ -110,22 +130,16 @@ Package Vendor: Keil
    * Component: ARM.FreeRTOS::RTOS:Heap:Heap_4:9.0.0
       Source file:   Source\portable\MemMang\heap_4.c
 
-   * Component: ARM.FreeRTOS::RTOS:Timers:9.0.0
-      Include file:  Source\include\timers.h
-      Source file:   Source\timers.c
-
-   * Component: ARM::CMSIS:CORE:5.0.2
-
    * Component: Keil.ARM Compiler::Compiler:I/O:STDOUT:ITM:1.2.0
       Source file:   Source\retarget_io.c
 
    * Component: Keil::Device:Startup:2.6.0
-      Source file:   MDK\Device\Source\ARM\STM32F4xx_OTP.s
       Source file:   MDK\Device\Source\ARM\STM32F40xxx_41xxx_OPT.s
-      Source file:   Drivers\CMSIS\Device\ST\STM32F4xx\Source\Templates\arm\startup_stm32f407xx.s
+      Source file:   MDK\Device\Source\ARM\STM32F4xx_OTP.s
       Include file:  Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h
+      Source file:   Drivers\CMSIS\Device\ST\STM32F4xx\Source\Templates\arm\startup_stm32f407xx.s
       Source file:   Drivers\CMSIS\Device\ST\STM32F4xx\Source\Templates\system_stm32f4xx.c
-Build Time Elapsed:  00:00:03
+Build Time Elapsed:  00:00:10
 </pre>
 </body>
 </html>

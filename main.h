@@ -51,8 +51,7 @@
 #define HALT_SYSTEM(X) do{__asm("NOP");} while(X)
 #define TOTAL_IR_SENSORS (4U)
 #define TOTAL_ADC1_INJECTED_CHANNELS (4U)
-#define ADJACENT_REGISTER_OFFSET (sizeof(uint32_t))
-
+#define ADJACENT_REGISTER_ADDRESS_OFFSET (sizeof(uint32_t))
 
 
 
@@ -66,6 +65,16 @@ volatile ADC_Common_TypeDef *ADCCommonControl = ADC;
 volatile GPIO_TypeDef *myPortD = GPIOD;
 volatile RCC_TypeDef *myRCC = RCC;
 volatile TIM_TypeDef *myTimer4 = TIM4;
+TaskHandle_t xAdjustSpeedTaskHandle = NULL;
+
+
+
+enum Position {
+	Front,
+	Left,
+	Right,
+	Back
+};
 
 
 
@@ -87,11 +96,11 @@ void IWDGCounterReload(void *pvIWDG_Counter_Reset);
 
 void TestPWM(void *pvTest_PWM);
 
-// Sample IR Sensors connected to ADC_IN1@PA0:1:2:3
+// Sample IR Sensors connected to ADC_IN0:3@PA0:1:2:3
 void SampleIRSensors(void *pvSample_POT);
 
 // Adjust motor speed i.e. PWM duty cycle TM4@CH2@PB7
 void AdjustMotorSpeed(void * pvAdjust_Motor_Speed);
 
 // Creates a queue & tasks to gauge distance prior to adjusting motor speed
-void GaugeDistanceAndDrive(QueueHandle_t pvSample_IR_Sensors);
+void GaugeDistanceAndDrive(void);

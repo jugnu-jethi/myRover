@@ -16,6 +16,14 @@
 .\objects\main.o: .\RTE\RTOS\FreeRTOSConfig.h
 .\objects\main.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\CMSIS\RTOS2\FreeRTOS\Include\freertos_evr.h
 .\objects\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+.\objects\main.o: C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\include\trcRecorder.h
+.\objects\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
+.\objects\main.o: .\Tracealyzer\config\trcConfig.h
+.\objects\main.o: C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\include\trcPortDefines.h
+.\objects\main.o: .\Tracealyzer\config\trcSnapshotConfig.h
+.\objects\main.o: C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\include\trcHardwarePort.h
+.\objects\main.o: C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\include\trcKernelPort.h
+.\objects\main.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\FreeRTOS.h
 .\objects\main.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\projdefs.h
 .\objects\main.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\portable.h
 .\objects\main.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\deprecated_definitions.h

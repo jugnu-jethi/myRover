@@ -1,23 +1,31 @@
-Rover :4 wheels
+Rover: 4 wheels
 
 Chasis : DAGU Multi Chassis 4WD KIT (ATV version) @http://www.dagurobot.com/goods.php?id=58
 
-Motor driver :DRV8833
-Driver type :Full H-Bridge
-FHB Nos. :2
+Motor driver: DRV8833
+Driver type: Full H-Bridge
+FHB Nos.: 2
 
 Motor @per wheel
-Motor type :BDC
+Motor type: BDC
 
-Controller :SM32F4-DISCOVERY Boards
-System clock @168Mhz
+Controller: SM32F4-DISCOVERY Boards
+System clock: 168Mhz
 
-Watchdog @32768msec
+Watchdog Reset @32768msec
 
-ToF Sensors: Sharp IR
+Distance Sensors: Sharp GP2D120
 Sensor type: Analog
-Analog inputs @PA0:1:2:3
+Sensor Supply: +5V
+Output: Voltage
+Vo Characteristics: Voltage decreases non-linearly with increase in distance
+Max Vo: +3.1v(2.55v+0.55v)
+Analog inputs: PA0:1:2:3
 Analog injected channels @ADC_IN0:1:2:3
+ADC Resolution: 12-bits
+ADC Clock(ADCCLK) @84Mhz/4, 24Mhz
+Per Channel Conversion: 625nsec(3 + 12 ADCCLK)
+Total Conversion(4CHs): 2.5usec
 
 PWM timers @TIM3, @TIM4
 PWM freq @20.512Khz - used to scale 1:1 to 12-bit ADC

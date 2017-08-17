@@ -219,8 +219,7 @@ int main(){
 	
 	/* START - Configure ADC1 to read injected-channels@ADC1_IN0:1:2:3@PA0:1:2:3(scan-mode) */
 	// Enable clock for GPIOA
-	/* Not needed as already enabled prior
-	//myRCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN; */
+	myRCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN;
 	
 	// Set-up PA0:1:2:3 as slow speed general purpose push-pull analog input
 	myPortA->MODER |= GPIO_MODER_MODE0 | GPIO_MODER_MODE1 | GPIO_MODER_MODE2 | GPIO_MODER_MODE3;
@@ -257,40 +256,41 @@ int main(){
 	myADC1->JSQR |= ADC_JSQR_JSQ3_1;
 	myADC1->JSQR |= ADC_JSQR_JSQ4_1 | ADC_JSQR_JSQ4_0;
 	
+	// Enable IRQ on Injected-Channel sequence completion; Enable & set global ADC IRQ to lowest priority
+ 	myADC1->CR1 |= ADC_CR1_JEOCIE;
+	__NVIC_SetPriority(ADC_IRQn,255);
+	__NVIC_EnableIRQ(ADC_IRQn);
+	
 	// Switch ADC1 ON
 	myADC1->CR2 |= ADC_CR2_ADON;
 	/* END - Configure ADC1 to read from PA1 */
 	
-	
+	/***********************************************************************************************/
+	/******************************* Initialize & Start Tracealyzer ********************************/
+	/***********************************************************************************************/
+	vTraceEnable(TRC_START);
 	
 	/***********************************************************************************************/
 	/************************************** START - FreeRTOS ***************************************/
 	/***********************************************************************************************/
-	QueueHandle_t xIRSampleQueue = NULL;
 	
 	
 	/* START - Create FreeRTOS Tasks */
 	// Watchdog reload task has highest priority
 #if defined(WATCHDOG_ENABLE)
-	if(pdFAIL == xTaskCreate(IWDGCounterReload, "IWDGReset", 50, NULL, 4, NULL)){
+	if(pdFAIL == xTaskCreate(IWDGCounterReload, "IWDGReset", 50, NULL, 2, NULL)){
 		
 		printf("IWDG Counter Reload Task Failed!\n");
 	}
 #endif
 	
 	// Blink Green-LED@PD12 every second(0.5Hz)
-	if(pdFAIL == xTaskCreate(LEDHeartBeat, "HeartBeat", 50, NULL, 1, NULL)){
+	if(pdFAIL == xTaskCreate(LEDHeartBeat, "HeartBeat", 50, NULL, 0, NULL)){
 		
 		printf("LED Heart Beat Task Failed!\n");
 	}
 	
-	xIRSampleQueue = xQueueCreate(TOTAL_IR_SENSORS, sizeof(uint16_t));
-	if(NULL == xIRSampleQueue){
-		
-		printf("Couldn't create xIRSampleQueue!\n");
-		HALT_SYSTEM(TRUE);
-	}
-	GaugeDistanceAndDrive(xIRSampleQueue);
+	GaugeDistanceAndDrive();
 	
 //	if(pdFAIL == xTaskCreate(TestPWM, "PWMTest", 50, NULL, 1, NULL)){
 //		
@@ -417,29 +417,19 @@ void TestPWM(void *pvTest_PWM){
 
 void SampleIRSensors(void *pvSample_IR_Sensors){
 	
-	uint32_t ictr = 0;
 	TickType_t xLastWakeTime;
-	const TickType_t xSamplePeriod = pdMS_TO_TICKS(100);
-	const TickType_t xSampleSendWait = pdMS_TO_TICKS(10);
-		
+	const TickType_t xSamplePeriod = pdMS_TO_TICKS(50);
+	
 	xLastWakeTime = xTaskGetTickCount();
 	while(TRUE){
 		
-		vTaskDelayUntil( &xLastWakeTime, xSamplePeriod );
+		vTaskDelayUntil(&xLastWakeTime, xSamplePeriod);
 		
-		// Start scan-mode on all injected channels
-		myADC1->CR2 |= ADC_CR2_JSWSTART;
-		
-		// Wait for injected-channels' scan results
-		while(ADC_SR_JEOC != (myADC1->SR & ADC_SR_JEOC));
-		if(ADC_SR_JEOC == (myADC1->SR & ADC_SR_JEOC)){
+		// Check start flag is unset before starting scan-mode on all injected channels
+		if(ADC_SR_JSTRT != (myADC1->SR & ADC_SR_JSTRT)){
 			
-			for(ictr = 0; ictr < TOTAL_ADC1_INJECTED_CHANNELS; ++ictr){
-				if(pdPASS != xQueueSend((QueueHandle_t)pvSample_IR_Sensors, (const void *)(&(myADC1->JDR1) + (ADJACENT_REGISTER_OFFSET * ictr)), xSampleSendWait)){
-				
-					printf("Sample %d wasn't sent.\n", ictr);
-				}
-			}
+			//printf("Scan\n");
+			myADC1->CR2 |= ADC_CR2_JSWSTART;
 		}
 	}
 	
@@ -450,19 +440,39 @@ void SampleIRSensors(void *pvSample_IR_Sensors){
 
 void AdjustMotorSpeed( void *pvAdjust_Motor_Speed){
 	
-	const TickType_t xDelay_Adjust = pdMS_TO_TICKS(100);
-	static uint32_t PotsOhms = 0;
-	uint16_t PotsOhmSample = 0;
+	TickType_t xLastWakeTime;
+	uint32_t ulEventsToProcess;
+	static uint32_t Distance[4] = {0};
+	const TickType_t xDelay_Adjust = pdMS_TO_TICKS(50);
+	const TickType_t xNotification_Wait = pdMS_TO_TICKS(10);
 	
+	xLastWakeTime = xTaskGetTickCount();
 	while(TRUE){
 		
-		vTaskDelay(xDelay_Adjust);
-		if(pdPASS == xQueueReceive((QueueHandle_t)pvAdjust_Motor_Speed, (uint16_t *)&PotsOhmSample, portMAX_DELAY)){
+		vTaskDelayUntil(&xLastWakeTime,xDelay_Adjust);
 		
-			// Calculate a moving average for better accuracy and stability
-			PotsOhms = (PotsOhms + PotsOhmSample)/2;
-			myTimer4->CCR2 = PotsOhms;
+		ulEventsToProcess = ulTaskNotifyTake(pdTRUE, xNotification_Wait);
+		if(1 == ulEventsToProcess){
+			
+			Distance[Front] = (Distance[Front] + myADC1->JDR1)/2;
+			Distance[Left] = (Distance[Left] + myADC1->JDR2)/2;
+			Distance[Right] = (Distance[Right] + myADC1->JDR3)/2;
+			Distance[Back] = (Distance[Back] + myADC1->JDR4)/2;
+			// Print all calculated distances - NOTE: needs stack of size 100
+			//printf("%d:%d:%d:%d\n", Distance[Front], Distance[Left], Distance[Right], Distance[Back]);
+			
+		}else if(1 < ulEventsToProcess){
+			
+			printf("Missed %d sample sequence!\n", ulEventsToProcess);
+			
+		}else{
+			
+			printf("ADC1 IRQ notification not sent!\n");
 		}
+		
+		// Set PWM for front direction
+		myTimer4->CCR2 = Distance[Front];
+		
 	}
 	
 	vTaskDelete( NULL );
@@ -470,15 +480,15 @@ void AdjustMotorSpeed( void *pvAdjust_Motor_Speed){
 
 
 
-void GaugeDistanceAndDrive(QueueHandle_t xPotsOhmsQueue){
+void GaugeDistanceAndDrive(void){
 	
-	if(pdFAIL == xTaskCreate(SampleIRSensors, "SampleIRs", 50, (void *)xPotsOhmsQueue, 2, NULL)){
+	if(pdFAIL == xTaskCreate(SampleIRSensors, "SampleIRs", 50, NULL, 2, NULL)){
 
 		printf("Sample IR Sensors Task Failed!\n");
 		HALT_SYSTEM(TRUE);
 	}
 	
-	if(pdFAIL == xTaskCreate(AdjustMotorSpeed, "ADJ-Motor", 50, (void *)xPotsOhmsQueue, 1, NULL)){
+	if(pdFAIL == xTaskCreate(AdjustMotorSpeed, "ADJ-Motor", 50, NULL, 2, &xAdjustSpeedTaskHandle)){
 		
 		printf("Adjust Motor Speed Task Failed!\n");
 		// Disable all PWM channels i.e. TIM4@CH1:2:3:4@PB6:PB7:PB8:PB9
@@ -501,3 +511,27 @@ void EXTI0_IRQHandler(void){
 	myTaskFlags |= 0x0001;
 }
 #endif
+
+
+
+void ADC_IRQHandler(void){
+	
+	BaseType_t xHigherPriorityTaskWoken;
+	
+	xHigherPriorityTaskWoken = pdFALSE;
+	
+	//printf("ADC IRQ!\n");
+	if(ADC_SR_JEOC == (myADC1->SR & ADC_SR_JEOC)){
+		
+		//printf("Clearing\n");
+		// clear JEOC & JSTRT flags & notify distance sample task
+		myADC1->SR &= ~ADC_SR_JEOC;
+		if(ADC_SR_JSTRT == (myADC1->SR & ADC_SR_JSTRT)) myADC1->SR &= ~ADC_SR_JSTRT;
+		//printf("Cleared\n");
+		vTaskNotifyGiveFromISR(xAdjustSpeedTaskHandle, &xHigherPriorityTaskWoken);
+	}
+	
+	if(__NVIC_GetPendingIRQ(ADC_IRQn)) __NVIC_ClearPendingIRQ(ADC_IRQn);
+	portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+	//printf("ADC IRQ Done!\n");
+}

@@ -1,6 +1,6 @@
 Dependencies for Project 'myRover', Target 'Target 1': (DO NOT MODIFY !)
-F (.\main.c)(0x598D6EF6)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -g -O0 --apcs=interwork --split_sections-I.\RTE\RTOS-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\CMSIS\RTOS2\FreeRTOS\Include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\portable\RVDS\ARM_CM4F-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="523" -D_RTE_ -DSTM32F407xx-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
-I (main.h)(0x598D6A22)
+F (.\main.c)(0x599562C3)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -g -O0 --apcs=interwork --split_sections -I "C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\include" -I .\Tracealyzer\config -I ..\myRover-I.\RTE\RTOS-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\CMSIS\RTOS2\FreeRTOS\Include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\portable\RVDS\ARM_CM4F-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="523" -D_RTE_ -DSTM32F407xx-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
+I (main.h)(0x5993DF40)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x57F606B8)
 I (C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h)(0x5822CD58)
 I (C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f407xx.h)(0x5822CD6A)
@@ -14,9 +14,16 @@ I (C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4
 I (.\RTE\_Target_1\RTE_Components.h)(0x5976F119)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\FreeRTOS.h)(0x589BF93E)
 I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x57F606B8)
-I (.\RTE\RTOS\FreeRTOSConfig.h)(0x58C224B6)
+I (.\RTE\RTOS\FreeRTOSConfig.h)(0x599555CF)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\CMSIS\RTOS2\FreeRTOS\Include\freertos_evr.h)(0x58BCC424)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x57F606B8)
+I (C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\include\trcRecorder.h)(0x58FF2DB8)
+I (C:\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x57F606B8)
+I (.\Tracealyzer\config\trcConfig.h)(0x59955620)
+I (C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\include\trcPortDefines.h)(0x58F9AF6E)
+I (.\Tracealyzer\config\trcSnapshotConfig.h)(0x58F9AF6E)
+I (C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\include\trcHardwarePort.h)(0x58F9AF6E)
+I (C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\include\trcKernelPort.h)(0x593012D6)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\projdefs.h)(0x589BF93E)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\portable.h)(0x589BF93E)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\deprecated_definitions.h)(0x589BF93E)
@@ -25,9 +32,99 @@ I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\mpu_wrappers.h)(0
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\task.h)(0x589BF93E)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\list.h)(0x589BF93E)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\queue.h)(0x589BF93E)
-F (.\main.h)(0x598D6A22)()
-F (.\Design.txt)(0x5983EAF9)()
-F (C:\Keil_v5\ARM\PACK\Keil\ARM_Compiler\1.3.1\Source\retarget_io.c)(0x584E29BE)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -g -O0 --apcs=interwork --split_sections-I.\RTE\RTOS-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\CMSIS\RTOS2\FreeRTOS\Include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\portable\RVDS\ARM_CM4F-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="523" -D_RTE_ -DSTM32F407xx-o .\objects\retarget_io.o --omf_browse .\objects\retarget_io.crf --depend .\objects\retarget_io.d)
+F (.\main.h)(0x5993DF40)()
+F (.\Design.txt)(0x5992B248)()
+F (C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\trcKernelPort.c)(0x58F9AF6E)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -g -O0 --apcs=interwork --split_sections -I "C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\include" -I .\Tracealyzer\config -I ..\myRover-I.\RTE\RTOS-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\CMSIS\RTOS2\FreeRTOS\Include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\portable\RVDS\ARM_CM4F-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="523" -D_RTE_ -DSTM32F407xx-o .\objects\trckernelport.o --omf_browse .\objects\trckernelport.crf --depend .\objects\trckernelport.d)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\FreeRTOS.h)(0x589BF93E)
+I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x57F606B8)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x57F606B8)
+I (.\RTE\RTOS\FreeRTOSConfig.h)(0x599555CF)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\CMSIS\RTOS2\FreeRTOS\Include\freertos_evr.h)(0x58BCC424)
+I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x57F606B8)
+I (.\RTE\_Target_1\RTE_Components.h)(0x5976F119)
+I (C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\include\trcRecorder.h)(0x58FF2DB8)
+I (C:\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x57F606B8)
+I (.\Tracealyzer\config\trcConfig.h)(0x59955620)
+I (C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\include\trcPortDefines.h)(0x58F9AF6E)
+I (C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h)(0x5822CD58)
+I (C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f407xx.h)(0x5822CD6A)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include\core_cm4.h)(0x59840DC6)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include\cmsis_version.h)(0x59840DC6)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include\cmsis_compiler.h)(0x59840DC6)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include\cmsis_armcc.h)(0x59840DC6)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include\mpu_armv7.h)(0x59840DC6)
+I (C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include\system_stm32f4xx.h)(0x5822CD6A)
+I (.\Tracealyzer\config\trcSnapshotConfig.h)(0x58F9AF6E)
+I (C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\include\trcHardwarePort.h)(0x58F9AF6E)
+I (C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\include\trcKernelPort.h)(0x593012D6)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\projdefs.h)(0x589BF93E)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\portable.h)(0x589BF93E)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\deprecated_definitions.h)(0x589BF93E)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\portable\RVDS\ARM_CM4F\portmacro.h)(0x589BF93E)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\mpu_wrappers.h)(0x589BF93E)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\task.h)(0x589BF93E)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\list.h)(0x589BF93E)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\queue.h)(0x589BF93E)
+F (C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\trcSnapshotRecorder.c)(0x593012D6)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -g -O0 --apcs=interwork --split_sections -I "C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\include" -I .\Tracealyzer\config -I ..\myRover-I.\RTE\RTOS-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\CMSIS\RTOS2\FreeRTOS\Include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\portable\RVDS\ARM_CM4F-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="523" -D_RTE_ -DSTM32F407xx-o .\objects\trcsnapshotrecorder.o --omf_browse .\objects\trcsnapshotrecorder.crf --depend .\objects\trcsnapshotrecorder.d)
+I (C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\include\trcRecorder.h)(0x58FF2DB8)
+I (C:\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x57F606B8)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x57F606B8)
+I (.\Tracealyzer\config\trcConfig.h)(0x59955620)
+I (C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\include\trcPortDefines.h)(0x58F9AF6E)
+I (C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h)(0x5822CD58)
+I (C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f407xx.h)(0x5822CD6A)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include\core_cm4.h)(0x59840DC6)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include\cmsis_version.h)(0x59840DC6)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include\cmsis_compiler.h)(0x59840DC6)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include\cmsis_armcc.h)(0x59840DC6)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include\mpu_armv7.h)(0x59840DC6)
+I (C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include\system_stm32f4xx.h)(0x5822CD6A)
+I (.\Tracealyzer\config\trcSnapshotConfig.h)(0x58F9AF6E)
+I (C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\include\trcHardwarePort.h)(0x58F9AF6E)
+I (C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\include\trcKernelPort.h)(0x593012D6)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\FreeRTOS.h)(0x589BF93E)
+I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x57F606B8)
+I (.\RTE\RTOS\FreeRTOSConfig.h)(0x599555CF)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\CMSIS\RTOS2\FreeRTOS\Include\freertos_evr.h)(0x58BCC424)
+I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x57F606B8)
+I (.\RTE\_Target_1\RTE_Components.h)(0x5976F119)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\projdefs.h)(0x589BF93E)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\portable.h)(0x589BF93E)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\deprecated_definitions.h)(0x589BF93E)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\portable\RVDS\ARM_CM4F\portmacro.h)(0x589BF93E)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\mpu_wrappers.h)(0x589BF93E)
+F (C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\trcStreamingRecorder.c)(0x58F9AF6E)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -g -O0 --apcs=interwork --split_sections -I "C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\include" -I .\Tracealyzer\config -I ..\myRover-I.\RTE\RTOS-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\CMSIS\RTOS2\FreeRTOS\Include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\portable\RVDS\ARM_CM4F-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="523" -D_RTE_ -DSTM32F407xx-o .\objects\trcstreamingrecorder.o --omf_browse .\objects\trcstreamingrecorder.crf --depend .\objects\trcstreamingrecorder.d)
+I (C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\include\trcRecorder.h)(0x58FF2DB8)
+I (C:\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x57F606B8)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x57F606B8)
+I (.\Tracealyzer\config\trcConfig.h)(0x59955620)
+I (C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\include\trcPortDefines.h)(0x58F9AF6E)
+I (C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h)(0x5822CD58)
+I (C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f407xx.h)(0x5822CD6A)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include\core_cm4.h)(0x59840DC6)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include\cmsis_version.h)(0x59840DC6)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include\cmsis_compiler.h)(0x59840DC6)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include\cmsis_armcc.h)(0x59840DC6)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include\mpu_armv7.h)(0x59840DC6)
+I (C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include\system_stm32f4xx.h)(0x5822CD6A)
+I (.\Tracealyzer\config\trcSnapshotConfig.h)(0x58F9AF6E)
+I (C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\include\trcHardwarePort.h)(0x58F9AF6E)
+I (C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\include\trcKernelPort.h)(0x593012D6)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\FreeRTOS.h)(0x589BF93E)
+I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x57F606B8)
+I (.\RTE\RTOS\FreeRTOSConfig.h)(0x599555CF)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\CMSIS\RTOS2\FreeRTOS\Include\freertos_evr.h)(0x58BCC424)
+I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x57F606B8)
+I (.\RTE\_Target_1\RTE_Components.h)(0x5976F119)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\projdefs.h)(0x589BF93E)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\portable.h)(0x589BF93E)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\deprecated_definitions.h)(0x589BF93E)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\portable\RVDS\ARM_CM4F\portmacro.h)(0x589BF93E)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\mpu_wrappers.h)(0x589BF93E)
+F (.\Tracealyzer\config\trcConfig.h)(0x59955620)()
+F (.\Tracealyzer\config\trcSnapshotConfig.h)(0x58F9AF6E)()
+F (.\Tracealyzer\config\trcStreamingConfig.h)(0x58F9AF6E)()
+F (C:\Keil_v5\ARM\PACK\Keil\ARM_Compiler\1.3.1\Source\retarget_io.c)(0x584E29BE)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -g -O0 --apcs=interwork --split_sections -I "C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\include" -I .\Tracealyzer\config -I ..\myRover-I.\RTE\RTOS-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\CMSIS\RTOS2\FreeRTOS\Include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\portable\RVDS\ARM_CM4F-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="523" -D_RTE_ -DSTM32F407xx-o .\objects\retarget_io.o --omf_browse .\objects\retarget_io.crf --depend .\objects\retarget_io.d)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x57F606B8)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x57F606B8)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x57F606B8)
@@ -36,7 +133,7 @@ I (C:\Keil_v5\ARM\ARMCC\include\assert.h)(0x57F606B6)
 I (C:\Keil_v5\ARM\ARMCC\include\rt_sys.h)(0x57F606B8)
 I (.\RTE\_Target_1\RTE_Components.h)(0x5976F119)
 F (RTE\Device\STM32F407VGTx\startup_stm32f407xx.s)(0x5822CD58)(--cpu Cortex-M4.fp --pd "__EVAL SETA 1" -g --apcs=interwork -I.\RTE\RTOS-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\CMSIS\RTOS2\FreeRTOS\Include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\portable\RVDS\ARM_CM4F-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include--pd "__UVISION_VERSION SETA 523" --pd "_RTE_ SETA 1" --pd "STM32F407xx SETA 1"--list .\listings\startup_stm32f407xx.lst --xref -o .\objects\startup_stm32f407xx.o --depend .\objects\startup_stm32f407xx.d)
-F (RTE\Device\STM32F407VGTx\system_stm32f4xx.c)(0x595371BB)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -g -O0 --apcs=interwork --split_sections-I.\RTE\RTOS-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\CMSIS\RTOS2\FreeRTOS\Include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\portable\RVDS\ARM_CM4F-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="523" -D_RTE_ -DSTM32F407xx-o .\objects\system_stm32f4xx.o --omf_browse .\objects\system_stm32f4xx.crf --depend .\objects\system_stm32f4xx.d)
+F (RTE\Device\STM32F407VGTx\system_stm32f4xx.c)(0x595371BB)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -g -O0 --apcs=interwork --split_sections -I "C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\include" -I .\Tracealyzer\config -I ..\myRover-I.\RTE\RTOS-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\CMSIS\RTOS2\FreeRTOS\Include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\portable\RVDS\ARM_CM4F-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="523" -D_RTE_ -DSTM32F407xx-o .\objects\system_stm32f4xx.o --omf_browse .\objects\system_stm32f4xx.crf --depend .\objects\system_stm32f4xx.d)
 I (C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h)(0x5822CD58)
 I (C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f407xx.h)(0x5822CD6A)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include\core_cm4.h)(0x59840DC6)
@@ -46,7 +143,7 @@ I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include\cmsis_compiler.h)(0x59840DC
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include\cmsis_armcc.h)(0x59840DC6)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include\mpu_armv7.h)(0x59840DC6)
 I (C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include\system_stm32f4xx.h)(0x5822CD6A)
-F (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\CMSIS\RTOS2\FreeRTOS\Source\freertos_evr.c)(0x58BCC424)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -g -O0 --apcs=interwork --split_sections-I.\RTE\RTOS-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\CMSIS\RTOS2\FreeRTOS\Include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\portable\RVDS\ARM_CM4F-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="523" -D_RTE_ -DSTM32F407xx-o .\objects\freertos_evr.o --omf_browse .\objects\freertos_evr.crf --depend .\objects\freertos_evr.d)
+F (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\CMSIS\RTOS2\FreeRTOS\Source\freertos_evr.c)(0x58BCC424)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -g -O0 --apcs=interwork --split_sections -I "C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\include" -I .\Tracealyzer\config -I ..\myRover-I.\RTE\RTOS-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\CMSIS\RTOS2\FreeRTOS\Include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\portable\RVDS\ARM_CM4F-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="523" -D_RTE_ -DSTM32F407xx-o .\objects\freertos_evr.o --omf_browse .\objects\freertos_evr.crf --depend .\objects\freertos_evr.d)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\CMSIS\RTOS2\FreeRTOS\Include\freertos_evr.h)(0x58BCC424)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x57F606B8)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x57F606B8)
@@ -55,7 +152,20 @@ I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include\cmsis_compiler.h)(0x59840DC
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include\cmsis_armcc.h)(0x59840DC6)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\FreeRTOS.h)(0x589BF93E)
 I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x57F606B8)
-I (.\RTE\RTOS\FreeRTOSConfig.h)(0x58C224B6)
+I (.\RTE\RTOS\FreeRTOSConfig.h)(0x599555CF)
+I (C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\include\trcRecorder.h)(0x58FF2DB8)
+I (C:\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x57F606B8)
+I (.\Tracealyzer\config\trcConfig.h)(0x59955620)
+I (C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\include\trcPortDefines.h)(0x58F9AF6E)
+I (C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h)(0x5822CD58)
+I (C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f407xx.h)(0x5822CD6A)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include\core_cm4.h)(0x59840DC6)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include\cmsis_version.h)(0x59840DC6)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include\mpu_armv7.h)(0x59840DC6)
+I (C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include\system_stm32f4xx.h)(0x5822CD6A)
+I (.\Tracealyzer\config\trcSnapshotConfig.h)(0x58F9AF6E)
+I (C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\include\trcHardwarePort.h)(0x58F9AF6E)
+I (C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\include\trcKernelPort.h)(0x593012D6)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\projdefs.h)(0x589BF93E)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\portable.h)(0x589BF93E)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\deprecated_definitions.h)(0x589BF93E)
@@ -67,15 +177,30 @@ I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\semphr.h)(0x589BF
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\queue.h)(0x589BF93E)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\event_groups.h)(0x589BF93E)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\timers.h)(0x589BF93E)
-F (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\event_groups.c)(0x589BF93E)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -g -O0 --apcs=interwork --split_sections-I.\RTE\RTOS-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\CMSIS\RTOS2\FreeRTOS\Include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\portable\RVDS\ARM_CM4F-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="523" -D_RTE_ -DSTM32F407xx-o .\objects\event_groups.o --omf_browse .\objects\event_groups.crf --depend .\objects\event_groups.d)
+F (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\event_groups.c)(0x589BF93E)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -g -O0 --apcs=interwork --split_sections -I "C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\include" -I .\Tracealyzer\config -I ..\myRover-I.\RTE\RTOS-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\CMSIS\RTOS2\FreeRTOS\Include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\portable\RVDS\ARM_CM4F-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="523" -D_RTE_ -DSTM32F407xx-o .\objects\event_groups.o --omf_browse .\objects\event_groups.crf --depend .\objects\event_groups.d)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x57F606B8)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\FreeRTOS.h)(0x589BF93E)
 I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x57F606B8)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x57F606B8)
-I (.\RTE\RTOS\FreeRTOSConfig.h)(0x58C224B6)
+I (.\RTE\RTOS\FreeRTOSConfig.h)(0x599555CF)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\CMSIS\RTOS2\FreeRTOS\Include\freertos_evr.h)(0x58BCC424)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x57F606B8)
 I (.\RTE\_Target_1\RTE_Components.h)(0x5976F119)
+I (C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\include\trcRecorder.h)(0x58FF2DB8)
+I (C:\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x57F606B8)
+I (.\Tracealyzer\config\trcConfig.h)(0x59955620)
+I (C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\include\trcPortDefines.h)(0x58F9AF6E)
+I (C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h)(0x5822CD58)
+I (C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f407xx.h)(0x5822CD6A)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include\core_cm4.h)(0x59840DC6)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include\cmsis_version.h)(0x59840DC6)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include\cmsis_compiler.h)(0x59840DC6)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include\cmsis_armcc.h)(0x59840DC6)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include\mpu_armv7.h)(0x59840DC6)
+I (C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include\system_stm32f4xx.h)(0x5822CD6A)
+I (.\Tracealyzer\config\trcSnapshotConfig.h)(0x58F9AF6E)
+I (C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\include\trcHardwarePort.h)(0x58F9AF6E)
+I (C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\include\trcKernelPort.h)(0x593012D6)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\projdefs.h)(0x589BF93E)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\portable.h)(0x589BF93E)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\deprecated_definitions.h)(0x589BF93E)
@@ -85,30 +210,60 @@ I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\task.h)(0x589BF93
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\list.h)(0x589BF93E)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\timers.h)(0x589BF93E)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\event_groups.h)(0x589BF93E)
-F (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\list.c)(0x589BF93E)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -g -O0 --apcs=interwork --split_sections-I.\RTE\RTOS-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\CMSIS\RTOS2\FreeRTOS\Include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\portable\RVDS\ARM_CM4F-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="523" -D_RTE_ -DSTM32F407xx-o .\objects\list.o --omf_browse .\objects\list.crf --depend .\objects\list.d)
+F (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\list.c)(0x589BF93E)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -g -O0 --apcs=interwork --split_sections -I "C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\include" -I .\Tracealyzer\config -I ..\myRover-I.\RTE\RTOS-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\CMSIS\RTOS2\FreeRTOS\Include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\portable\RVDS\ARM_CM4F-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="523" -D_RTE_ -DSTM32F407xx-o .\objects\list.o --omf_browse .\objects\list.crf --depend .\objects\list.d)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x57F606B8)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\FreeRTOS.h)(0x589BF93E)
 I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x57F606B8)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x57F606B8)
-I (.\RTE\RTOS\FreeRTOSConfig.h)(0x58C224B6)
+I (.\RTE\RTOS\FreeRTOSConfig.h)(0x599555CF)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\CMSIS\RTOS2\FreeRTOS\Include\freertos_evr.h)(0x58BCC424)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x57F606B8)
 I (.\RTE\_Target_1\RTE_Components.h)(0x5976F119)
+I (C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\include\trcRecorder.h)(0x58FF2DB8)
+I (C:\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x57F606B8)
+I (.\Tracealyzer\config\trcConfig.h)(0x59955620)
+I (C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\include\trcPortDefines.h)(0x58F9AF6E)
+I (C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h)(0x5822CD58)
+I (C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f407xx.h)(0x5822CD6A)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include\core_cm4.h)(0x59840DC6)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include\cmsis_version.h)(0x59840DC6)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include\cmsis_compiler.h)(0x59840DC6)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include\cmsis_armcc.h)(0x59840DC6)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include\mpu_armv7.h)(0x59840DC6)
+I (C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include\system_stm32f4xx.h)(0x5822CD6A)
+I (.\Tracealyzer\config\trcSnapshotConfig.h)(0x58F9AF6E)
+I (C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\include\trcHardwarePort.h)(0x58F9AF6E)
+I (C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\include\trcKernelPort.h)(0x593012D6)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\projdefs.h)(0x589BF93E)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\portable.h)(0x589BF93E)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\deprecated_definitions.h)(0x589BF93E)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\portable\RVDS\ARM_CM4F\portmacro.h)(0x589BF93E)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\mpu_wrappers.h)(0x589BF93E)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\list.h)(0x589BF93E)
-F (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\portable\MemMang\heap_4.c)(0x589BF93E)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -g -O0 --apcs=interwork --split_sections-I.\RTE\RTOS-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\CMSIS\RTOS2\FreeRTOS\Include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\portable\RVDS\ARM_CM4F-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="523" -D_RTE_ -DSTM32F407xx-o .\objects\heap_4.o --omf_browse .\objects\heap_4.crf --depend .\objects\heap_4.d)
+F (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\portable\MemMang\heap_4.c)(0x589BF93E)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -g -O0 --apcs=interwork --split_sections -I "C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\include" -I .\Tracealyzer\config -I ..\myRover-I.\RTE\RTOS-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\CMSIS\RTOS2\FreeRTOS\Include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\portable\RVDS\ARM_CM4F-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="523" -D_RTE_ -DSTM32F407xx-o .\objects\heap_4.o --omf_browse .\objects\heap_4.crf --depend .\objects\heap_4.d)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x57F606B8)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\FreeRTOS.h)(0x589BF93E)
 I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x57F606B8)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x57F606B8)
-I (.\RTE\RTOS\FreeRTOSConfig.h)(0x58C224B6)
+I (.\RTE\RTOS\FreeRTOSConfig.h)(0x599555CF)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\CMSIS\RTOS2\FreeRTOS\Include\freertos_evr.h)(0x58BCC424)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x57F606B8)
 I (.\RTE\_Target_1\RTE_Components.h)(0x5976F119)
+I (C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\include\trcRecorder.h)(0x58FF2DB8)
+I (C:\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x57F606B8)
+I (.\Tracealyzer\config\trcConfig.h)(0x59955620)
+I (C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\include\trcPortDefines.h)(0x58F9AF6E)
+I (C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h)(0x5822CD58)
+I (C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f407xx.h)(0x5822CD6A)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include\core_cm4.h)(0x59840DC6)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include\cmsis_version.h)(0x59840DC6)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include\cmsis_compiler.h)(0x59840DC6)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include\cmsis_armcc.h)(0x59840DC6)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include\mpu_armv7.h)(0x59840DC6)
+I (C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include\system_stm32f4xx.h)(0x5822CD6A)
+I (.\Tracealyzer\config\trcSnapshotConfig.h)(0x58F9AF6E)
+I (C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\include\trcHardwarePort.h)(0x58F9AF6E)
+I (C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\include\trcKernelPort.h)(0x593012D6)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\projdefs.h)(0x589BF93E)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\portable.h)(0x589BF93E)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\deprecated_definitions.h)(0x589BF93E)
@@ -116,14 +271,29 @@ I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\portable\RVDS\ARM_CM4F\po
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\mpu_wrappers.h)(0x589BF93E)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\task.h)(0x589BF93E)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\list.h)(0x589BF93E)
-F (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\portable\RVDS\ARM_CM4F\port.c)(0x589BF93E)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -g -O0 --apcs=interwork --split_sections-I.\RTE\RTOS-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\CMSIS\RTOS2\FreeRTOS\Include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\portable\RVDS\ARM_CM4F-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="523" -D_RTE_ -DSTM32F407xx-o .\objects\port.o --omf_browse .\objects\port.crf --depend .\objects\port.d)
+F (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\portable\RVDS\ARM_CM4F\port.c)(0x589BF93E)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -g -O0 --apcs=interwork --split_sections -I "C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\include" -I .\Tracealyzer\config -I ..\myRover-I.\RTE\RTOS-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\CMSIS\RTOS2\FreeRTOS\Include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\portable\RVDS\ARM_CM4F-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="523" -D_RTE_ -DSTM32F407xx-o .\objects\port.o --omf_browse .\objects\port.crf --depend .\objects\port.d)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\FreeRTOS.h)(0x589BF93E)
 I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x57F606B8)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x57F606B8)
-I (.\RTE\RTOS\FreeRTOSConfig.h)(0x58C224B6)
+I (.\RTE\RTOS\FreeRTOSConfig.h)(0x599555CF)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\CMSIS\RTOS2\FreeRTOS\Include\freertos_evr.h)(0x58BCC424)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x57F606B8)
 I (.\RTE\_Target_1\RTE_Components.h)(0x5976F119)
+I (C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\include\trcRecorder.h)(0x58FF2DB8)
+I (C:\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x57F606B8)
+I (.\Tracealyzer\config\trcConfig.h)(0x59955620)
+I (C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\include\trcPortDefines.h)(0x58F9AF6E)
+I (C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h)(0x5822CD58)
+I (C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f407xx.h)(0x5822CD6A)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include\core_cm4.h)(0x59840DC6)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include\cmsis_version.h)(0x59840DC6)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include\cmsis_compiler.h)(0x59840DC6)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include\cmsis_armcc.h)(0x59840DC6)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include\mpu_armv7.h)(0x59840DC6)
+I (C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include\system_stm32f4xx.h)(0x5822CD6A)
+I (.\Tracealyzer\config\trcSnapshotConfig.h)(0x58F9AF6E)
+I (C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\include\trcHardwarePort.h)(0x58F9AF6E)
+I (C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\include\trcKernelPort.h)(0x593012D6)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\projdefs.h)(0x589BF93E)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\portable.h)(0x589BF93E)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\deprecated_definitions.h)(0x589BF93E)
@@ -131,15 +301,30 @@ I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\portable\RVDS\ARM_CM4F\po
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\mpu_wrappers.h)(0x589BF93E)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\task.h)(0x589BF93E)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\list.h)(0x589BF93E)
-F (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\queue.c)(0x589BF93E)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -g -O0 --apcs=interwork --split_sections-I.\RTE\RTOS-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\CMSIS\RTOS2\FreeRTOS\Include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\portable\RVDS\ARM_CM4F-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="523" -D_RTE_ -DSTM32F407xx-o .\objects\queue.o --omf_browse .\objects\queue.crf --depend .\objects\queue.d)
+F (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\queue.c)(0x589BF93E)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -g -O0 --apcs=interwork --split_sections -I "C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\include" -I .\Tracealyzer\config -I ..\myRover-I.\RTE\RTOS-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\CMSIS\RTOS2\FreeRTOS\Include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\portable\RVDS\ARM_CM4F-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="523" -D_RTE_ -DSTM32F407xx-o .\objects\queue.o --omf_browse .\objects\queue.crf --depend .\objects\queue.d)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x57F606B8)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x57F606B8)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\FreeRTOS.h)(0x589BF93E)
 I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x57F606B8)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x57F606B8)
-I (.\RTE\RTOS\FreeRTOSConfig.h)(0x58C224B6)
+I (.\RTE\RTOS\FreeRTOSConfig.h)(0x599555CF)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\CMSIS\RTOS2\FreeRTOS\Include\freertos_evr.h)(0x58BCC424)
 I (.\RTE\_Target_1\RTE_Components.h)(0x5976F119)
+I (C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\include\trcRecorder.h)(0x58FF2DB8)
+I (C:\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x57F606B8)
+I (.\Tracealyzer\config\trcConfig.h)(0x59955620)
+I (C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\include\trcPortDefines.h)(0x58F9AF6E)
+I (C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h)(0x5822CD58)
+I (C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f407xx.h)(0x5822CD6A)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include\core_cm4.h)(0x59840DC6)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include\cmsis_version.h)(0x59840DC6)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include\cmsis_compiler.h)(0x59840DC6)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include\cmsis_armcc.h)(0x59840DC6)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include\mpu_armv7.h)(0x59840DC6)
+I (C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include\system_stm32f4xx.h)(0x5822CD6A)
+I (.\Tracealyzer\config\trcSnapshotConfig.h)(0x58F9AF6E)
+I (C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\include\trcHardwarePort.h)(0x58F9AF6E)
+I (C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\include\trcKernelPort.h)(0x593012D6)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\projdefs.h)(0x589BF93E)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\portable.h)(0x589BF93E)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\deprecated_definitions.h)(0x589BF93E)
@@ -148,15 +333,30 @@ I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\mpu_wrappers.h)(0
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\task.h)(0x589BF93E)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\list.h)(0x589BF93E)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\queue.h)(0x589BF93E)
-F (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\tasks.c)(0x589BF93E)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -g -O0 --apcs=interwork --split_sections-I.\RTE\RTOS-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\CMSIS\RTOS2\FreeRTOS\Include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\portable\RVDS\ARM_CM4F-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="523" -D_RTE_ -DSTM32F407xx-o .\objects\tasks.o --omf_browse .\objects\tasks.crf --depend .\objects\tasks.d)
+F (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\tasks.c)(0x589BF93E)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -g -O0 --apcs=interwork --split_sections -I "C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\include" -I .\Tracealyzer\config -I ..\myRover-I.\RTE\RTOS-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\CMSIS\RTOS2\FreeRTOS\Include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\portable\RVDS\ARM_CM4F-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="523" -D_RTE_ -DSTM32F407xx-o .\objects\tasks.o --omf_browse .\objects\tasks.crf --depend .\objects\tasks.d)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x57F606B8)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x57F606B8)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\FreeRTOS.h)(0x589BF93E)
 I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x57F606B8)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x57F606B8)
-I (.\RTE\RTOS\FreeRTOSConfig.h)(0x58C224B6)
+I (.\RTE\RTOS\FreeRTOSConfig.h)(0x599555CF)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\CMSIS\RTOS2\FreeRTOS\Include\freertos_evr.h)(0x58BCC424)
 I (.\RTE\_Target_1\RTE_Components.h)(0x5976F119)
+I (C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\include\trcRecorder.h)(0x58FF2DB8)
+I (C:\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x57F606B8)
+I (.\Tracealyzer\config\trcConfig.h)(0x59955620)
+I (C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\include\trcPortDefines.h)(0x58F9AF6E)
+I (C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h)(0x5822CD58)
+I (C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f407xx.h)(0x5822CD6A)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include\core_cm4.h)(0x59840DC6)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include\cmsis_version.h)(0x59840DC6)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include\cmsis_compiler.h)(0x59840DC6)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include\cmsis_armcc.h)(0x59840DC6)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include\mpu_armv7.h)(0x59840DC6)
+I (C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include\system_stm32f4xx.h)(0x5822CD6A)
+I (.\Tracealyzer\config\trcSnapshotConfig.h)(0x58F9AF6E)
+I (C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\include\trcHardwarePort.h)(0x58F9AF6E)
+I (C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\include\trcKernelPort.h)(0x593012D6)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\projdefs.h)(0x589BF93E)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\portable.h)(0x589BF93E)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\deprecated_definitions.h)(0x589BF93E)
@@ -166,15 +366,30 @@ I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\task.h)(0x589BF93
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\list.h)(0x589BF93E)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\timers.h)(0x589BF93E)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\StackMacros.h)(0x589BF93E)
-F (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\timers.c)(0x589BF93E)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -g -O0 --apcs=interwork --split_sections-I.\RTE\RTOS-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\CMSIS\RTOS2\FreeRTOS\Include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\portable\RVDS\ARM_CM4F-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="523" -D_RTE_ -DSTM32F407xx-o .\objects\timers.o --omf_browse .\objects\timers.crf --depend .\objects\timers.d)
+F (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\timers.c)(0x589BF93E)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -g -O0 --apcs=interwork --split_sections -I "C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\include" -I .\Tracealyzer\config -I ..\myRover-I.\RTE\RTOS-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\CMSIS\RTOS2\FreeRTOS\Include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\portable\RVDS\ARM_CM4F-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="523" -D_RTE_ -DSTM32F407xx-o .\objects\timers.o --omf_browse .\objects\timers.crf --depend .\objects\timers.d)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x57F606B8)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\FreeRTOS.h)(0x589BF93E)
 I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x57F606B8)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x57F606B8)
-I (.\RTE\RTOS\FreeRTOSConfig.h)(0x58C224B6)
+I (.\RTE\RTOS\FreeRTOSConfig.h)(0x599555CF)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\CMSIS\RTOS2\FreeRTOS\Include\freertos_evr.h)(0x58BCC424)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x57F606B8)
 I (.\RTE\_Target_1\RTE_Components.h)(0x5976F119)
+I (C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\include\trcRecorder.h)(0x58FF2DB8)
+I (C:\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x57F606B8)
+I (.\Tracealyzer\config\trcConfig.h)(0x59955620)
+I (C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\include\trcPortDefines.h)(0x58F9AF6E)
+I (C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h)(0x5822CD58)
+I (C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f407xx.h)(0x5822CD6A)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include\core_cm4.h)(0x59840DC6)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include\cmsis_version.h)(0x59840DC6)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include\cmsis_compiler.h)(0x59840DC6)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include\cmsis_armcc.h)(0x59840DC6)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include\mpu_armv7.h)(0x59840DC6)
+I (C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include\system_stm32f4xx.h)(0x5822CD6A)
+I (.\Tracealyzer\config\trcSnapshotConfig.h)(0x58F9AF6E)
+I (C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\include\trcHardwarePort.h)(0x58F9AF6E)
+I (C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\include\trcKernelPort.h)(0x593012D6)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\projdefs.h)(0x589BF93E)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\portable.h)(0x589BF93E)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\deprecated_definitions.h)(0x589BF93E)
@@ -184,4 +399,4 @@ I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\task.h)(0x589BF93
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\list.h)(0x589BF93E)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\queue.h)(0x589BF93E)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include\timers.h)(0x589BF93E)
-F (RTE\RTOS\FreeRTOSConfig.h)(0x58C224B6)()
+F (RTE\RTOS\FreeRTOSConfig.h)(0x599555CF)()

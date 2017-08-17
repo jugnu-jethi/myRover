@@ -335,7 +335,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath></IncludePath>
+              <IncludePath>C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\include;.\Tracealyzer\config;..\myRover</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -377,7 +377,7 @@
       </TargetOption>
       <Groups>
         <Group>
-          <GroupName>Source Group 1</GroupName>
+          <GroupName>Rover</GroupName>
           <Files>
             <File>
               <FileName>main.c</FileName>
@@ -398,6 +398,41 @@
               <FileName>Design.txt</FileName>
               <FileType>5</FileType>
               <FilePath>.\Design.txt</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Tracealyzer</GroupName>
+          <Files>
+            <File>
+              <FileName>trcKernelPort.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\trcKernelPort.c</FilePath>
+            </File>
+            <File>
+              <FileName>trcSnapshotRecorder.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\trcSnapshotRecorder.c</FilePath>
+            </File>
+            <File>
+              <FileName>trcStreamingRecorder.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\trcStreamingRecorder.c</FilePath>
+            </File>
+            <File>
+              <FileName>trcConfig.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Tracealyzer\config\trcConfig.h</FilePath>
+            </File>
+            <File>
+              <FileName>trcSnapshotConfig.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Tracealyzer\config\trcSnapshotConfig.h</FilePath>
+            </File>
+            <File>
+              <FileName>trcStreamingConfig.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Tracealyzer\config\trcStreamingConfig.h</FilePath>
             </File>
           </Files>
         </Group>

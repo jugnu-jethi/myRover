@@ -111,6 +111,11 @@ extern uint32_t SystemCoreClock;
 #define configUSE_MALLOC_FAILED_HOOK          0
 #define configUSE_16_BIT_TICKS                0
 
+/* Run time and task stats gathering related definitions. */
+#define configGENERATE_RUN_TIME_STATS           0
+#define configUSE_TRACE_FACILITY                1
+#define configUSE_STATS_FORMATTING_FUNCTIONS    0
+
 /* Set the following definitions to 1 to include the API function, or zero
 to exclude the API function. */
 #define INCLUDE_vTaskPrioritySet              1
@@ -158,5 +163,10 @@ header file. */
 
 /* Include debug event definitions */
 #include "freertos_evr.h"
+
+/* Integrates the Tracealyzer recorder with FreeRTOS */
+#if ( configUSE_TRACE_FACILITY == 1 )
+#include "trcRecorder.h"
+#endif
 
 #endif /* FREERTOS_CONFIG_H */
