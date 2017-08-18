@@ -278,7 +278,7 @@ int main(){
 	/* START - Create FreeRTOS Tasks */
 	// Watchdog reload task has highest priority
 #if defined(WATCHDOG_ENABLE)
-	if(pdFAIL == xTaskCreate(IWDGCounterReload, "IWDGReset", 50, NULL, 2, NULL)){
+	if(pdFAIL == xTaskCreate(IWDGCounterReload, "IWDGReset", 50, NULL, 1, NULL)){
 		
 		printf("IWDG Counter Reload Task Failed!\n");
 	}
@@ -360,7 +360,8 @@ void LEDHeartBeat(void *pvLED_HeartBeat){
 #if defined(WATCHDOG_ENABLE)
 void IWDGCounterReload(void *pvIWDG_Counter_Reload){
 	
-	const TickType_t xDelay_8000ms = pdMS_TO_TICKS(8000);
+	const TickType_t xDelay_IWDG = pdMS_TO_TICKS(100);
+	static uint16_t IWDGKickCtr = 80;
 	
 	while(TRUE){
 		
@@ -369,22 +370,24 @@ void IWDGCounterReload(void *pvIWDG_Counter_Reload){
 		myIWatchDog->KR = IWDG_RELOAD_KEY;
 #endif
 		
-		// Re-set watchdog flag & Amber-LED@PD13
-		if(RCC_CSR_WDGRSTF == (myRCC->CSR & RCC_CSR_WDGRSTF)){
-			
-			vTaskDelay(xDelay_8000ms);
-			myPortD->BSRR |= GPIO_BSRR_BR13;
-			myRCC->CSR |= RCC_CSR_RMVF;
-			
-			timeout = CONFIG_TIMEOUT_DURATION;
-			while(RCC_CSR_WDGRSTF == (myRCC->CSR & RCC_CSR_WDGRSTF)){
+		if(0 >= IWDGKickCtr){
+			// Re-set watchdog flag & Amber-LED@PD13
+			if(RCC_CSR_WDGRSTF == (myRCC->CSR & RCC_CSR_WDGRSTF)){
 				
-				if(timeout != TIMED_OUT) --timeout;
+				myPortD->BSRR |= GPIO_BSRR_BR13;
+				myRCC->CSR |= RCC_CSR_RMVF;
+				
+				timeout = CONFIG_TIMEOUT_DURATION;
+				while(RCC_CSR_WDGRSTF == (myRCC->CSR & RCC_CSR_WDGRSTF)){
+					
+					if(timeout != TIMED_OUT) --timeout;
+				}
+				Manage_Timeout(timeout);
 			}
-			Manage_Timeout(timeout);
-		}
+			
+		}else{ --IWDGKickCtr; }
 		
-		vTaskDelay(xDelay_8000ms);
+		vTaskDelay(xDelay_IWDG);
 	}
 	
 	vTaskDelete( NULL );
@@ -428,7 +431,6 @@ void SampleIRSensors(void *pvSample_IR_Sensors){
 		// Check start flag is unset before starting scan-mode on all injected channels
 		if(ADC_SR_JSTRT != (myADC1->SR & ADC_SR_JSTRT)){
 			
-			//printf("Scan\n");
 			myADC1->CR2 |= ADC_CR2_JSWSTART;
 		}
 	}
@@ -520,18 +522,14 @@ void ADC_IRQHandler(void){
 	
 	xHigherPriorityTaskWoken = pdFALSE;
 	
-	//printf("ADC IRQ!\n");
 	if(ADC_SR_JEOC == (myADC1->SR & ADC_SR_JEOC)){
 		
-		//printf("Clearing\n");
 		// clear JEOC & JSTRT flags & notify distance sample task
 		myADC1->SR &= ~ADC_SR_JEOC;
 		if(ADC_SR_JSTRT == (myADC1->SR & ADC_SR_JSTRT)) myADC1->SR &= ~ADC_SR_JSTRT;
-		//printf("Cleared\n");
 		vTaskNotifyGiveFromISR(xAdjustSpeedTaskHandle, &xHigherPriorityTaskWoken);
 	}
 	
 	if(__NVIC_GetPendingIRQ(ADC_IRQn)) __NVIC_ClearPendingIRQ(ADC_IRQn);
 	portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
-	//printf("ADC IRQ Done!\n");
 }

@@ -335,7 +335,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\include;.\Tracealyzer\config;..\myRover</IncludePath>
+              <IncludePath>C:\Program Files (x86)\Percepio\Tracealyzer for FreeRTOS\TraceRecorder\include;.\Tracealyzer\config;..\myRover;C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\portable\RVDS\ARM_CM4F;C:\Keil_v5\ARM\ARMCC\include\;C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\9.0.0\Source\include</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
